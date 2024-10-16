@@ -15,11 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
 import com.roseoj.myapplication.core.common.next
+import com.roseoj.myapplication.feature.welcome.auth.AuthScreen
 
 
 @Preview
@@ -43,6 +42,7 @@ import com.roseoj.myapplication.core.common.next
 fun Onboarding() {
     var page by remember { mutableStateOf(OnboardingScreen.Page1) }
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
+    val interactionSource = remember { MutableInteractionSource() }
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { ip ->
@@ -104,7 +104,13 @@ fun Onboarding() {
                     ),
                     contentDescription = "next",
                     tint = Color.Unspecified,
-                    modifier = Modifier.clickable { page = page.next() }
+                    modifier = Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+                        if(page != OnboardingScreen.Page3) page = page.next()
+//                        else AuthScreen()
+                    }
                 )
             }
         }
