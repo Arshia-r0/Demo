@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserData(
     val appTheme: AppTheme = AppTheme.FollowSystem,
-    val authToken: String? = null
+    val authToken: Boolean = false
 )

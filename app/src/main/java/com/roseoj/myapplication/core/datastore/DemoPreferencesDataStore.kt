@@ -24,7 +24,7 @@ class DemoPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setToken(token: String) {
+    suspend fun setToken(token: Boolean) {
         userPreferences.updateData {
             it.copy(authToken = token)
         }
