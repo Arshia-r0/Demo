@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.roseoj.myapplication.app.ui.rememberDemoAppState
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
-import com.roseoj.myapplication.app.navigation.DemoNavHost
+import com.roseoj.myapplication.app.ui.DemoApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        var loading by mutableStateOf(true)
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
 
         lifecycleScope.launch {
@@ -41,7 +42,9 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             when(uiState) {
                 MainActivityUiState.Loading -> true
-                is MainActivityUiState.Success -> false
+                is MainActivityUiState.Success -> false.also {
+                    loading = false
+                }
             }
         }
 
@@ -49,7 +52,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val appState = rememberDemoAppState()
             MyApplicationTheme {
-                DemoNavHost()
+                if(!loading) DemoApp(appState, uiState as MainActivityUiState.Success)
             }
         }
     }
