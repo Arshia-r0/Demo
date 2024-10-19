@@ -17,7 +17,6 @@ class MainActivityViewModel @Inject constructor(
     userDataRepository: UserDataRepository
 ): ViewModel() {
 
-
     val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
         MainActivityUiState.Success(it)
     }.stateIn(

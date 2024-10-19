@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.roseoj.myapplication.app.ui.rememberDemoAppState
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
-import com.roseoj.myapplication.feature.welcome.onboarding.Onboarding
+import com.roseoj.myapplication.app.navigation.DemoNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -49,13 +49,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val appState = rememberDemoAppState()
             MyApplicationTheme {
-//                if(!(uiState as MainActivityUiState.Success).data.authToken) {
-                    Onboarding()
-//                } else {
-//                    DemoApp(
-//                        appState = appState,
-//                    )
-//                }
+                DemoNavHost()
             }
         }
     }
