@@ -1,7 +1,11 @@
 package com.roseoj.myapplication.app.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -17,9 +21,12 @@ import com.roseoj.myapplication.feature.welcome.onboarding.OnboardingScreen
 fun DemoNavHost(
     appState: DemoAppState,
     uiState: MainActivityUiState.Success,
+    ip: PaddingValues,
+//    onShowSnackbar: suspend (String, String?) -> Boolean
 ) {
     NavHost(
         navController = appState.navController,
+        modifier = Modifier.fillMaxSize().padding(ip),
         startDestination = if(!uiState.data.authToken) DemoRoutes.OnboardingRoute
             else DemoRoutes.MainScreen
     ) {

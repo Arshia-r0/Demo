@@ -44,76 +44,72 @@ fun OnboardingScreen(navController: NavController) {
     var page by remember { mutableStateOf(OnboardingPages.Page1) }
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
-    Scaffold(
+    Column(
         modifier = Modifier.fillMaxSize()
-    ) { ip ->
-        Column(
-            modifier = Modifier.padding(ip)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth().height(300.dp),
         ) {
-            Box(
-                modifier = Modifier.fillMaxWidth().height(300.dp),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.primary)
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 60.dp, bottom = 100.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        textAlign = TextAlign.End,
-                        text = stringResource(page.title),
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = Color.White,
-                    )
-                    Text(
-                        textAlign = TextAlign.End,
-                        text = stringResource(page.description),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White,
-                    )
-                }
-            }
-            Box(
-                modifier = Modifier.weight(0.25f)
-            ) {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(page.image),
-                    contentDescription = "icon"
-                )
-            }
-            Box(
+            Column(
                 modifier = Modifier
-                    .weight(0.1f)
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 60.dp, bottom = 100.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CircularProgressIndicator(
-                    progress = { progress },
-                    trackColor = MaterialTheme.colorScheme.secondary,
-                    gapSize = 0.dp,
-                    modifier = Modifier.size(60.dp),
-                    strokeCap = StrokeCap.Butt
+                Text(
+                    textAlign = TextAlign.End,
+                    text = stringResource(page.title),
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = Color.White,
                 )
-                Icon(
-                    painter = painterResource(
-                        if(page == OnboardingPages.Page3) R.drawable.check
-                        else R.drawable.arrow_left
-                    ),
-                    contentDescription = "next",
-                    tint = Color.Unspecified,
-                    modifier = Modifier.clickable(
-                        interactionSource = interactionSource,
-                        indication = null
-                    ) {
-                        if(page != OnboardingPages.Page3) page = page.next()
-                        else navController.navigate(DemoRoutes.AuthRoute)
-                    }
+                Text(
+                    textAlign = TextAlign.End,
+                    text = stringResource(page.description),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White,
                 )
             }
+        }
+        Box(
+            modifier = Modifier.weight(0.25f)
+        ) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(page.image),
+                contentDescription = "icon"
+            )
+        }
+        Box(
+            modifier = Modifier
+                .weight(0.1f)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                progress = { progress },
+                trackColor = MaterialTheme.colorScheme.secondary,
+                gapSize = 0.dp,
+                modifier = Modifier.size(60.dp),
+                strokeCap = StrokeCap.Butt
+            )
+            Icon(
+                painter = painterResource(
+                    if(page == OnboardingPages.Page3) R.drawable.check
+                    else R.drawable.arrow_left
+                ),
+                contentDescription = "next",
+                tint = Color.Unspecified,
+                modifier = Modifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    if(page != OnboardingPages.Page3) page = page.next()
+                    else navController.navigate(DemoRoutes.AuthRoute)
+                }
+            )
         }
     }
 }

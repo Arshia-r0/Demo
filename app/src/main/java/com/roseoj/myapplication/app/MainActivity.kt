@@ -52,7 +52,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val appState = rememberDemoAppState()
             MyApplicationTheme {
-                if(!loading) DemoApp(appState, uiState as MainActivityUiState.Success)
+                if(!loading) DemoApp(
+                    appState,
+                    uiState as MainActivityUiState.Success
+                )
             }
         }
     }
