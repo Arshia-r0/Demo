@@ -1,5 +1,6 @@
 package com.roseoj.myapplication.feature.welcome.onboarding
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,39 +52,49 @@ fun OnboardingScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth().height(300.dp),
+            modifier = Modifier.fillMaxWidth().height(300.dp)
+            .background(MaterialTheme.colorScheme.primary),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.primary)
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 60.dp, bottom = 100.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            AnimatedContent(
+                targetState = page,
+                label = "title"
             ) {
-                Text(
-                    textAlign = TextAlign.End,
-                    text = stringResource(page.title),
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = Color.White,
-                )
-                Text(
-                    textAlign = TextAlign.End,
-                    text = stringResource(page.description),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 60.dp, bottom = 100.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        textAlign = TextAlign.End,
+                        text = stringResource(it.title),
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = Color.White,
+                    )
+                    Text(
+                        textAlign = TextAlign.End,
+                        text = stringResource(it.description),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White,
+                    )
+                }
             }
         }
         Box(
             modifier = Modifier.weight(0.25f)
         ) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(page.image),
-                contentDescription = "icon"
-            )
+            AnimatedContent(
+                targetState = page,
+                label = "icon"
+            ) {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(it.image),
+                    contentDescription = "icon"
+                )
+            }
         }
         Box(
             modifier = Modifier

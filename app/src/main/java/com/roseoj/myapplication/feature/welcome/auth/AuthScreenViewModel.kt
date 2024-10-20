@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-const val countDownTime = 5 // in seconds
+const val countDownTime = 120 // in seconds
 
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
