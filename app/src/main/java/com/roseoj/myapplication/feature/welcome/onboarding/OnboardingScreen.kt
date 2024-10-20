@@ -110,7 +110,7 @@ fun OnboardingScreen(
                     indication = null
                 ) {
                     if(page != OnboardingPages.Page3) page = page.next()
-                    else navController.navigate(DemoRoutes.AuthRoute)
+                    else navController.navigate(DemoRoutes.WelcomeRoute.AuthRoute)
                 }
             )
         }
