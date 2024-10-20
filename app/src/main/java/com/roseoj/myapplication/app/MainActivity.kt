@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 if(!loading) DemoApp(
                     appState,
-                    uiState as MainActivityUiState.Success
+                    (uiState as MainActivityUiState.Success).data.authorized
                 )
             }
         }

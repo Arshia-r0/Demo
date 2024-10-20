@@ -12,4 +12,11 @@
     <string name="auth_button">ارسال کد</string>
     <string name="auth_checkbox">من قوانین و مقررات ارائه خدمات توسط ترخینه را می‌پذیرم</string>
     <string name="auth_input_label">شماره همراه</string>
+    <string name="otp_title">کد تائید</string>
+    <string name="otp_description1">کد تایید پنج‌رقمی به شماره</string>
+    <string name="otp_description2">ارسال شد</string>
+    <string name="otp_timer">تا دریافت مجدد کد</string>
+    <string name="otp_change_number">ویرایش شماره</string>
+    <string name="otp_button">ورود</string>
+    <string name="otp_request_otp">دریافت مجدد کد</string>
 </resources>

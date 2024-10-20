@@ -1,44 +1,45 @@
 package com.roseoj.myapplication.feature.welcome.auth
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
+import com.roseoj.myapplication.core.common.convertToTime
+import com.roseoj.myapplication.feature.welcome.auth.components.OtpTextField
+import com.roseoj.myapplication.feature.welcome.auth.components.PhoneNumberTextField
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -46,27 +47,67 @@ fun AuthScreen(
     navController: NavController = rememberNavController(),
     viewModel: AuthScreenViewModel = hiltViewModel()
 ) {
+    var authStage by viewModel.authStage
     val phoneNumber by viewModel.phoneNumber
+    var otp by viewModel.otp
     val isChecked by viewModel.isChecked
+    val otpError by  viewModel.otpError
+    val invalidNumber by viewModel.invalidNumber
+    var timeLeft by viewModel.timeLeft
+    var countDown by viewModel.countDown
+    val toPhoneNumberScreen = {
+        authStage = AuthStage.PhoneNumber
+        otp = TextFieldValue()
+    }
+    LaunchedEffect(countDown) {
+        while(countDown) {
+            delay(1000L)
+            timeLeft--
+            if(timeLeft == 0) {
+                countDown = false
+            }
+        }
+    }
     Content(
+        authStage = authStage,
         navController = navController,
         phoneNumber = phoneNumber,
+        otp = otp,
         isChecked = isChecked,
+        invalidNumber = invalidNumber,
         setPhoneNumber = { viewModel.setPhoneNumber(it) },
+        setOtp = { viewModel.setOtp(it)},
+        submitPhoneNumber = { viewModel.submitPhoneNumber() },
+        submitOtp = { viewModel.submitOtp(navController) },
         setIsChecked = { viewModel.setIsChecked(it) },
+        toPhoneNumberScreen = toPhoneNumberScreen,
+        otpError = otpError,
+        timeLeft = timeLeft,
+        countDown = countDown,
+        requestOtp = { viewModel.requestOtp() }
     )
+    BackHandler { toPhoneNumberScreen() }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun Content(
+    authStage: AuthStage = AuthStage.PhoneNumber,
     navController: NavController = rememberNavController(),
-    phoneNumber: String = "",
+    phoneNumber: TextFieldValue = TextFieldValue(),
+    otp: TextFieldValue = TextFieldValue(),
     isChecked: Boolean = false,
-    setPhoneNumber: (String) -> Unit = {},
+    invalidNumber: Boolean = false,
+    otpError: Boolean = false,
+    timeLeft: Int = countDownTime,
+    countDown: Boolean = false,
+    setPhoneNumber: (TextFieldValue) -> Unit = {},
+    setOtp: (TextFieldValue) -> Unit = {},
+    submitPhoneNumber: () -> Unit = {},
+    submitOtp: () -> Unit = {},
     setIsChecked: (Boolean) -> Unit = {},
-    focusRequester: FocusRequester = remember { FocusRequester() },
-    focusManager: FocusManager = LocalFocusManager.current
+    toPhoneNumberScreen: () -> Unit = {},
+    requestOtp: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.padding(vertical = 200.dp),
@@ -82,73 +123,166 @@ fun Content(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.auth_title),
-                textAlign = TextAlign.End,
-                style = MaterialTheme.typography.headlineSmall
-            )
-            Text(
-                textAlign = TextAlign.End,
-                text = stringResource(R.string.auth_description),
-                style = MaterialTheme.typography.bodyLarge
-            )
-            OutlinedTextField(
-                value = phoneNumber,
-                onValueChange = { setPhoneNumber(it) },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
-                singleLine = true,
-                label = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth()
-                            .focusRequester(focusRequester),
-                        textAlign = TextAlign.End,
-                        text = stringResource(R.string.auth_input_label)
-                    )
-                },
-                placeholder = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.End,
-                        text = stringResource(R.string.auth_input),
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    errorBorderColor = MaterialTheme.colorScheme.error
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-                    }
+            if(authStage == AuthStage.PhoneNumber) {
+                AuthStage(
+                    phoneNumber = phoneNumber,
+                    invalidNumber = invalidNumber,
+                    isChecked = isChecked,
+                    submitPhoneNumber =  { submitPhoneNumber() },
+                    setPhoneNumber = { setPhoneNumber(it) },
+                    setIsChecked = { setIsChecked(it) }
                 )
-            )
-            Button(
-                onClick = {  },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
-                shape = RoundedCornerShape(5.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.auth_button)
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.auth_checkbox),
-                )
-                Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = { setIsChecked(it) }
+            } else {
+                OtpStage(
+                    phoneNumber = phoneNumber,
+                    otp = otp,
+                    otpError = otpError,
+                    timeLeft = timeLeft,
+                    countDown = countDown,
+                    setOtp = { setOtp(it) },
+                    toPhoneNumberScreen = { toPhoneNumberScreen() },
+                    submitOtp = { submitOtp() },
+                    requestOtp = { requestOtp() }
                 )
             }
         }
+    }
+}
+
+@Composable
+fun AuthStage(
+    phoneNumber: TextFieldValue = TextFieldValue(),
+    invalidNumber: Boolean = false,
+    isChecked: Boolean = false,
+    submitPhoneNumber: () -> Unit = {},
+    setPhoneNumber: (TextFieldValue) -> Unit = {},
+    setIsChecked: (Boolean) -> Unit = {},
+) {
+    Text(
+        text = stringResource(R.string.auth_title),
+        textAlign = TextAlign.End,
+        style = MaterialTheme.typography.headlineSmall
+    )
+    Text(
+        textAlign = TextAlign.End,
+        text = stringResource(R.string.auth_description),
+        style = MaterialTheme.typography.bodyLarge
+    )
+    PhoneNumberTextField(
+        phoneNumber = phoneNumber,
+        invalidNumber = invalidNumber,
+        setPhoneNumber = { setPhoneNumber(it) }
+    )
+    Button(
+        onClick = { submitPhoneNumber() },
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
+        shape = RoundedCornerShape(5.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.auth_button)
+        )
+    }
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.clickable { setIsChecked(!isChecked) },
+            text = stringResource(R.string.auth_checkbox),
+        )
+        Checkbox(
+            checked = isChecked,
+            onCheckedChange = { setIsChecked(it) }
+        )
+    }
+}
+
+@Composable
+fun OtpStage(
+    
+    phoneNumber: TextFieldValue = TextFieldValue(),
+    otp: TextFieldValue = TextFieldValue(),
+    otpError: Boolean = false,
+    timeLeft: Int = countDownTime,
+    countDown: Boolean = false,
+    setOtp: (TextFieldValue) -> Unit = {},
+    toPhoneNumberScreen: () -> Unit = {},
+    submitOtp: () -> Unit = {},
+    requestOtp: () -> Unit = {}
+) {
+    val changeNumberText = buildAnnotatedString {
+        withLink(
+            LinkAnnotation.Clickable(
+                tag = "change Number",
+                styles = TextLinkStyles(
+                    style = SpanStyle(MaterialTheme.colorScheme.primary, textDecoration = TextDecoration.Underline)
+                )
+            ) { toPhoneNumberScreen() }
+        ) { append(stringResource(R.string.otp_change_number)) }
+    }
+    val requestOtpText = buildAnnotatedString {
+        withLink(
+            LinkAnnotation.Clickable(
+                tag = "change Number",
+                styles = TextLinkStyles(
+                    style = SpanStyle(MaterialTheme.colorScheme.primary, textDecoration = TextDecoration.Underline)
+                )
+            ) { requestOtp() }
+        ) { append(stringResource(R.string.otp_request_otp)) }
+    }
+    Text(
+        text = stringResource(R.string.otp_title),
+        textAlign = TextAlign.End,
+        style = MaterialTheme.typography.headlineSmall
+    )
+    Text(
+        textAlign = TextAlign.End,
+        text = stringResource(R.string.otp_description1) + " "+ phoneNumber.text + " " + stringResource(R.string.otp_description2),
+        style = MaterialTheme.typography.bodyLarge
+    )
+    OtpTextField(
+        otp = otp,
+        otpError = otpError,
+        setOtp = { setOtp(it) }
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 55.dp, vertical = 5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = changeNumberText,
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ){
+            if(countDown) {
+                Text(
+                    text = stringResource(R.string.otp_timer)
+                )
+                Text(
+                    text = timeLeft.convertToTime()
+                )
+                Icon(
+                    painter = painterResource(R.drawable.clock),
+                    tint = Color.Unspecified,
+                    contentDescription = "clock icon"
+                )
+            } else {
+                Text(
+                    text = requestOtpText
+                )
+            }
+        }
+    }
+    Button(
+        onClick = { submitOtp() },
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
+        shape = RoundedCornerShape(5.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.otp_button),
+        )
     }
 }
