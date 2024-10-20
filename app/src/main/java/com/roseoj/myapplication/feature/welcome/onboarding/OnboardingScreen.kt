@@ -1,7 +1,10 @@
 package com.roseoj.myapplication.feature.welcome.onboarding
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,7 +60,16 @@ fun OnboardingScreen(
         ) {
             AnimatedContent(
                 targetState = page,
-                label = "title"
+                label = "title",
+                transitionSpec = {
+                    slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
+                    ) togetherWith slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
+                    )
+                }
             ) {
                 Column(
                     modifier = Modifier
@@ -87,7 +99,16 @@ fun OnboardingScreen(
         ) {
             AnimatedContent(
                 targetState = page,
-                label = "icon"
+                label = "icon",
+                transitionSpec = {
+                    slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
+                    ) togetherWith slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
+                    )
+                }
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
