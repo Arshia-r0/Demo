@@ -12,9 +12,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.roseoj.myapplication.app.ui.rememberDemoAppState
+import com.roseoj.myapplication.app.app.rememberDemoAppState
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
-import com.roseoj.myapplication.app.ui.DemoApp
+import com.roseoj.myapplication.app.app.DemoApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

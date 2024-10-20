@@ -14,7 +14,7 @@ class DemoPreferencesDataSource @Inject constructor(
     val userData = userPreferences.data.map {
         UserData(
             appTheme = it.appTheme,
-            authToken = it.authToken
+            authorized = it.authorized
         )
     }
 
@@ -24,9 +24,9 @@ class DemoPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setToken(token: Boolean) {
+    suspend fun setAuthorization(token: Boolean) {
         userPreferences.updateData {
-            it.copy(authToken = token)
+            it.copy(authorized = token)
         }
     }
 

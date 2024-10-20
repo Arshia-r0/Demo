@@ -1,14 +1,11 @@
 package com.roseoj.myapplication.feature.welcome.auth
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roseoj.myapplication.core.data.repository.UserDataRepository
-import com.roseoj.myapplication.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,9 +15,16 @@ class AuthScreenViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository
 ): ViewModel() {
     
-    fun authenticate() {
+    val phoneNumber = mutableStateOf("")
+    val isChecked = mutableStateOf(false)
+    
+    fun setPhoneNumber(newNumber: String) { phoneNumber.value = newNumber }
+    
+    fun setIsChecked(newIsChecked: Boolean) { isChecked.value = newIsChecked }
+    
+    private fun authenticate() {
         viewModelScope.launch {
-            userDataRepository.setToken(true)
+            userDataRepository.setAuthorization(true)
         }
     }
     

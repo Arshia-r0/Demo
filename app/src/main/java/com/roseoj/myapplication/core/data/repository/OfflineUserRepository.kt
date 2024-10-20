@@ -17,8 +17,8 @@ class UserDataRepository @Inject constructor(
         demoPreferencesDataSource.setAppTheme(appTheme)
     }
 
-    suspend fun setToken(token: Boolean) {
-        demoPreferencesDataSource.setToken(token)
+    suspend fun setAuthorization(token: Boolean) {
+        demoPreferencesDataSource.setAuthorization(token)
     }
 
 

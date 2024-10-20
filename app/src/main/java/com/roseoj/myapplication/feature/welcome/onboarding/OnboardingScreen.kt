@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,16 +31,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
-import com.roseoj.myapplication.app.navigation.DemoRoutes
 import com.roseoj.myapplication.core.common.next
+import com.roseoj.myapplication.feature.welcome.WelcomeRoutes
 
 
+@Preview
 @Composable
-fun OnboardingScreen(navController: NavController) {
-    var page by remember { mutableStateOf(OnboardingPages.Page1) }
+fun OnboardingScreen(
+    navController: NavController = rememberNavController(),
+    viewModel: OnboardingScreenViewModel = hiltViewModel()
+) {
+    var page by viewModel.page
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
     Column(
@@ -107,15 +112,9 @@ fun OnboardingScreen(navController: NavController) {
                     indication = null
                 ) {
                     if(page != OnboardingPages.Page3) page = page.next()
-                    else navController.navigate(DemoRoutes.AuthRoute)
+                    else navController.navigate(WelcomeRoutes.AuthRoute)
                 }
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    OnboardingScreen(rememberNavController())
 }
