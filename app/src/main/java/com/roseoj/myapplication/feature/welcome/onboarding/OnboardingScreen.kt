@@ -12,12 +12,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,13 +54,31 @@ fun OnboardingScreen(
     var page by viewModel.page
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
+    val nextScreen = {
+        navController.navigate(DemoRoutes.WelcomeRoute.AuthRoute)
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         Box(
             modifier = Modifier.fillMaxWidth().weight(0.4f)
-            .background(MaterialTheme.colorScheme.primary),
+                .background(MaterialTheme.colorScheme.primary),
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = { nextScreen() }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.close),
+                        contentDescription = "close",
+                        tint = Color.Unspecified
+                    )
+                }
+            }
             AnimatedContent(
                 targetState = page,
                 label = "title",
@@ -143,11 +163,7 @@ fun OnboardingScreen(
                     indication = null
                 ) {
                     if(page != OnboardingPages.Page3) page = page.next()
-                    else navController.navigate(DemoRoutes.WelcomeRoute.AuthRoute) {
-                        popUpTo(0) {
-                            inclusive = true
-                        }
-                    }
+                    else nextScreen()
                 }
             )
         }
