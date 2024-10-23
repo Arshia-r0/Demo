@@ -76,8 +76,8 @@ private fun CharView(
             .height(55.dp)
             .border(
                 1.dp, when {
-                    isFocused -> MaterialTheme.colorScheme.primary
                     otpError -> MaterialTheme.colorScheme.error
+                    isFocused -> MaterialTheme.colorScheme.primary
                     else -> MaterialTheme.colorScheme.secondary
                 }, RoundedCornerShape(8.dp)
             )
