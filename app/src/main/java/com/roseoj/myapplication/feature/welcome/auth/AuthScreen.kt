@@ -5,7 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -31,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -48,14 +52,14 @@ fun AuthScreen(
     viewModel: AuthScreenViewModel = koinViewModel()
 ) {
     var authStage by viewModel.authStage
-    val phoneNumber by viewModel.phoneNumber
     var otp by viewModel.otp
+    var timeLeft by viewModel.timeLeft
+    var countDown by viewModel.countDown
+    val phoneNumber by viewModel.phoneNumber
     val isChecked by viewModel.isChecked
     val otpError by  viewModel.otpError
     val invalidNumber by viewModel.invalidNumber
-    var timeLeft by viewModel.timeLeft
-    var countDown by viewModel.countDown
-    val toPhoneNumberScreen = {
+    val navigateToPhoneNumberScreen = {
         authStage = AuthStage.PhoneNumber
         otp = TextFieldValue()
     }
@@ -80,20 +84,24 @@ fun AuthScreen(
         submitPhoneNumber = { viewModel.submitPhoneNumber() },
         submitOtp = { viewModel.submitOtp(navController) },
         setIsChecked = { viewModel.setIsChecked(it) },
-        toPhoneNumberScreen = toPhoneNumberScreen,
+        navigateToPhoneNumberScreen = navigateToPhoneNumberScreen,
         otpError = otpError,
         timeLeft = timeLeft,
         countDown = countDown,
         requestOtp = { viewModel.requestOtp() }
     )
-    BackHandler { toPhoneNumberScreen() }
+    BackHandler {
+        if(authStage == AuthStage.Otp) navigateToPhoneNumberScreen()
+        else navController.navigateUp()
+    }
 }
 
 @Preview(showBackground = true)
+@PreviewScreenSizes
 @Composable
 fun Content(
-    authStage: AuthStage = AuthStage.PhoneNumber,
     navController: NavController = rememberNavController(),
+    authStage: AuthStage = AuthStage.PhoneNumber,
     phoneNumber: TextFieldValue = TextFieldValue(),
     otp: TextFieldValue = TextFieldValue(),
     isChecked: Boolean = false,
@@ -106,12 +114,12 @@ fun Content(
     submitPhoneNumber: () -> Unit = {},
     submitOtp: () -> Unit = {},
     setIsChecked: (Boolean) -> Unit = {},
-    toPhoneNumberScreen: () -> Unit = {},
+    navigateToPhoneNumberScreen: () -> Unit = {},
     requestOtp: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier.padding(vertical = 200.dp),
-        verticalArrangement = Arrangement.spacedBy(60.dp),
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
@@ -119,6 +127,7 @@ fun Content(
             contentDescription = "ICON",
             tint = Color.Unspecified
         )
+        Spacer(modifier = Modifier.height(50.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -140,7 +149,7 @@ fun Content(
                     timeLeft = timeLeft,
                     countDown = countDown,
                     setOtp = { setOtp(it) },
-                    toPhoneNumberScreen = { toPhoneNumberScreen() },
+                    navigateToPhoneNumberScreen = { navigateToPhoneNumberScreen() },
                     submitOtp = { submitOtp() },
                     requestOtp = { requestOtp() }
                 )
@@ -168,6 +177,7 @@ fun AuthStage(
         text = stringResource(R.string.auth_description),
         style = MaterialTheme.typography.bodyLarge
     )
+    Spacer(modifier = Modifier.height(20.dp))
     PhoneNumberTextField(
         phoneNumber = phoneNumber,
         invalidNumber = invalidNumber,
@@ -205,7 +215,7 @@ fun OtpStage(
     timeLeft: Int = countDownTime,
     countDown: Boolean = false,
     setOtp: (TextFieldValue) -> Unit = {},
-    toPhoneNumberScreen: () -> Unit = {},
+    navigateToPhoneNumberScreen: () -> Unit = {},
     submitOtp: () -> Unit = {},
     requestOtp: () -> Unit = {}
 ) {
@@ -216,7 +226,7 @@ fun OtpStage(
                 styles = TextLinkStyles(
                     style = SpanStyle(MaterialTheme.colorScheme.primary, textDecoration = TextDecoration.Underline)
                 )
-            ) { toPhoneNumberScreen() }
+            ) { navigateToPhoneNumberScreen() }
         ) { append(stringResource(R.string.otp_change_number)) }
     }
     val requestOtpText = buildAnnotatedString {
@@ -239,6 +249,7 @@ fun OtpStage(
         text = stringResource(R.string.otp_description1) + " "+ phoneNumber.text + " " + stringResource(R.string.otp_description2),
         style = MaterialTheme.typography.bodyLarge
     )
+    Spacer(modifier = Modifier.height(20.dp))
     OtpTextField(
         otp = otp,
         otpError = otpError,

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -43,6 +43,7 @@ import org.koin.androidx.compose.koinViewModel
 
 
 @Preview
+@PreviewScreenSizes
 @Composable
 fun OnboardingScreen(
     navController: NavController = rememberNavController(),
@@ -55,7 +56,7 @@ fun OnboardingScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth().height(300.dp)
+            modifier = Modifier.fillMaxWidth().weight(0.4f)
             .background(MaterialTheme.colorScheme.primary),
         ) {
             AnimatedContent(
@@ -95,7 +96,7 @@ fun OnboardingScreen(
             }
         }
         Box(
-            modifier = Modifier.weight(0.25f)
+            modifier = Modifier.weight(0.4f)
         ) {
             AnimatedContent(
                 targetState = page,
@@ -119,7 +120,7 @@ fun OnboardingScreen(
         }
         Box(
             modifier = Modifier
-                .weight(0.1f)
+                .weight(0.2f)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -142,7 +143,11 @@ fun OnboardingScreen(
                     indication = null
                 ) {
                     if(page != OnboardingPages.Page3) page = page.next()
-                    else navController.navigate(DemoRoutes.WelcomeRoute.AuthRoute)
+                    else navController.navigate(DemoRoutes.WelcomeRoute.AuthRoute) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }

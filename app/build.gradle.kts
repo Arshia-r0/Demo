@@ -78,5 +78,4 @@ dependencies {
     implementation(libs.androidx.datastore)
     //ktor
     implementation(libs.koin.ktor)
-
 }
