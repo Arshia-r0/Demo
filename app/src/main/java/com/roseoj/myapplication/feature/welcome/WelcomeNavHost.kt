@@ -18,7 +18,9 @@ fun WelcomeNavHost(
     isAuthorized: Boolean
 ) {
     if(isAuthorized) return DemoApp()
-    Scaffold { ip ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { ip ->
         val navController = rememberNavController()
         NavHost(
             modifier = Modifier.fillMaxSize().padding(ip),

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,7 +42,6 @@ fun DemoApp(
             snackbarHost = {
                 SnackbarHost(snackBarHostState)
             },
-            contentWindowInsets = WindowInsets(0,0,0,0)
         ) { ip ->
             Column(
                 modifier = Modifier
