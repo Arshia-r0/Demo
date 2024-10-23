@@ -1,6 +1,10 @@
 package com.roseoj.myapplication.feature.welcome.auth
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -128,31 +132,44 @@ fun Content(
             tint = Color.Unspecified
         )
         Spacer(modifier = Modifier.height(50.dp))
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if(authStage == AuthStage.PhoneNumber) {
-                AuthStage(
-                    phoneNumber = phoneNumber,
-                    invalidNumber = invalidNumber,
-                    isChecked = isChecked,
-                    submitPhoneNumber =  { submitPhoneNumber() },
-                    setPhoneNumber = { setPhoneNumber(it) },
-                    setIsChecked = { setIsChecked(it) }
+        AnimatedContent(
+            targetState = authStage,
+            label = "stage",
+            transitionSpec = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(200)
+                ) togetherWith slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(200)
                 )
-            } else {
-                OtpStage(
-                    phoneNumber = phoneNumber,
-                    otp = otp,
-                    otpError = otpError,
-                    timeLeft = timeLeft,
-                    countDown = countDown,
-                    setOtp = { setOtp(it) },
-                    navigateToPhoneNumberScreen = { navigateToPhoneNumberScreen() },
-                    submitOtp = { submitOtp() },
-                    requestOtp = { requestOtp() }
-                )
+            }        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (it == AuthStage.PhoneNumber) {
+                    AuthStage(
+                        phoneNumber = phoneNumber,
+                        invalidNumber = invalidNumber,
+                        isChecked = isChecked,
+                        submitPhoneNumber = { submitPhoneNumber() },
+                        setPhoneNumber = { setPhoneNumber(it) },
+                        setIsChecked = { setIsChecked(it) }
+                    )
+                } else {
+                    OtpStage(
+                        phoneNumber = phoneNumber,
+                        otp = otp,
+                        otpError = otpError,
+                        timeLeft = timeLeft,
+                        countDown = countDown,
+                        setOtp = { setOtp(it) },
+                        navigateToPhoneNumberScreen = { navigateToPhoneNumberScreen() },
+                        submitOtp = { submitOtp() },
+                        requestOtp = { requestOtp() }
+                    )
+                }
             }
         }
     }
