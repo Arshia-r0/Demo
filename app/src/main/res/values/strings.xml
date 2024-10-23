@@ -19,4 +19,9 @@
     <string name="otp_change_number">ویرایش شماره</string>
     <string name="otp_button">ورود</string>
     <string name="otp_request_otp">دریافت مجدد کد</string>
+    <string name="navbar_home">خانه</string>
+    <string name="navbar_search">جستجو</string>
+    <string name="navbar_cart">سبد خرید</string>
+    <string name="navbar_order">سفارشات</string>
+    <string name="navbar_profile">پروفایل</string>
 </resources>

@@ -82,7 +82,7 @@ fun AuthScreen(
         setPhoneNumber = { viewModel.setPhoneNumber(it) },
         setOtp = { viewModel.setOtp(it)},
         submitPhoneNumber = { viewModel.submitPhoneNumber() },
-        submitOtp = { viewModel.submitOtp(navController) },
+        submitOtp = { viewModel.submitOtp() },
         setIsChecked = { viewModel.setIsChecked(it) },
         navigateToPhoneNumberScreen = navigateToPhoneNumberScreen,
         otpError = otpError,

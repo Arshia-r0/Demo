@@ -11,9 +11,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.roseoj.myapplication.app.app.DemoApp
 import com.roseoj.myapplication.app.app.rememberDemoAppState
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
+import com.roseoj.myapplication.feature.welcome.WelcomeNavHost
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -50,10 +50,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             KoinAndroidContext {
-                val appState = rememberDemoAppState()
                 MyApplicationTheme {
-                    if (!loading) DemoApp(
-                        appState,
+                    if (!loading) WelcomeNavHost(
                         (uiState as MainActivityUiState.Success).data.authorized
                     )
                 }

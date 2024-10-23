@@ -4,7 +4,7 @@ import android.app.Application
 import com.roseoj.myapplication.app.di.appModule
 import com.roseoj.myapplication.core.data.di.dataModule
 import com.roseoj.myapplication.core.datastore.di.dataStoreModule
-import com.roseoj.myapplication.feature.welcome.di.onboardingModule
+import com.roseoj.myapplication.feature.di.featureModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -20,7 +20,7 @@ class MainApplication: Application() {
             androidContext(this@MainApplication)
             modules(
                 appModule,
-                onboardingModule,
+                featureModule,
                 dataModule,
                 dataStoreModule
             )

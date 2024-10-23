@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.roseoj.myapplication.app.navigation.DemoRoutes
 import com.roseoj.myapplication.core.data.repository.UserDataRepository
 import kotlinx.coroutines.launch
 
@@ -48,14 +46,10 @@ class AuthScreenViewModel(
         }
     }
     
-    fun submitOtp(navController: NavController) {
+    fun submitOtp() {
         if(validateOtp()) {
             countDown.value = false
-            navController.navigate(DemoRoutes.MainScreen) {
-                popUpTo(0) {
-                    inclusive = true
-                }
-            }
+            authenticate()
         }
     }
     

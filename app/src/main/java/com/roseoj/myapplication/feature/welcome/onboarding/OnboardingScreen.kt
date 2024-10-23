@@ -1,5 +1,6 @@
 package com.roseoj.myapplication.feature.welcome.onboarding
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
@@ -41,6 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
 import com.roseoj.myapplication.app.navigation.DemoRoutes
 import com.roseoj.myapplication.core.common.next
+import com.roseoj.myapplication.feature.welcome.WelcomeRoutes
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -55,7 +57,7 @@ fun OnboardingScreen(
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
     val nextScreen = {
-        navController.navigate(DemoRoutes.WelcomeRoute.AuthRoute)
+        navController.navigate(WelcomeRoutes.AuthRoute)
     }
     Column(
         modifier = Modifier.fillMaxSize()

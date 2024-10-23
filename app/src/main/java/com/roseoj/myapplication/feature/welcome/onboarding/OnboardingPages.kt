@@ -1,12 +1,14 @@
 package com.roseoj.myapplication.feature.welcome.onboarding
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.roseoj.demo.R
 
 
 enum class OnboardingPages(
     val title: Int,
-    val description: Int,
-    val image: Int,
+    @StringRes val description: Int,
+    @DrawableRes val image: Int,
     val progress: Float
 ) {
     Page1(

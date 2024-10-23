@@ -5,12 +5,13 @@ import kotlinx.serialization.Serializable
 
 sealed interface DemoRoutes {
     @Serializable
-    object WelcomeRoute {
-        @Serializable
-        object OnboardingRoute
-        @Serializable
-        object AuthRoute
-    }
+    object HomeRoute
     @Serializable
-    object MainScreen
+    object SearchRoute
+    @Serializable
+    object CartRoute
+    @Serializable
+    object OrderRoute
+    @Serializable
+    object ProfileRoute
 }
