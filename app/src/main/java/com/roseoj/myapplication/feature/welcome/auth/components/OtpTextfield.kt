@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +31,8 @@ import androidx.compose.ui.unit.dp
 fun OtpTextField(
     otp: TextFieldValue = TextFieldValue(),
     otpError: Boolean = false,
-    setOtp: (TextFieldValue) -> Unit = {}
+    setOtp: (TextFieldValue) -> Unit = {},
+    focusManager: FocusManager = LocalFocusManager.current
 ) {
     BasicTextField(
         modifier = Modifier.fillMaxWidth(),

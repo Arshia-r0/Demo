@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     //
-    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -63,10 +62,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // dependencies //
-    // hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    // koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.compose.navigation)
     // splashScreen
     implementation(libs.androidx.core.splashscreen)
     // navigation Compose
@@ -77,5 +76,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // protoDataStore
     implementation(libs.androidx.datastore)
+    //ktor
+    implementation(libs.koin.ktor)
 
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,18 +11,18 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.roseoj.myapplication.app.app.DemoApp
 import com.roseoj.myapplication.app.app.rememberDemoAppState
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
-import com.roseoj.myapplication.app.app.DemoApp
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.KoinAndroidContext
 
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel by inject<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -50,12 +49,14 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            val appState = rememberDemoAppState()
-            MyApplicationTheme {
-                if(!loading) DemoApp(
-                    appState,
-                    (uiState as MainActivityUiState.Success).data.authorized
-                )
+            KoinAndroidContext {
+                val appState = rememberDemoAppState()
+                MyApplicationTheme {
+                    if (!loading) DemoApp(
+                        appState,
+                        (uiState as MainActivityUiState.Success).data.authorized
+                    )
+                }
             }
         }
     }

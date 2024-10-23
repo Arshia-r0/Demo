@@ -34,19 +34,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
 import com.roseoj.myapplication.app.navigation.DemoRoutes
 import com.roseoj.myapplication.core.common.next
+import org.koin.androidx.compose.koinViewModel
 
 
 @Preview
 @Composable
 fun OnboardingScreen(
     navController: NavController = rememberNavController(),
-    viewModel: OnboardingScreenViewModel = hiltViewModel()
+    viewModel: OnboardingScreenViewModel = koinViewModel()
 ) {
     var page by viewModel.page
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")

@@ -8,15 +8,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.roseoj.myapplication.app.navigation.DemoRoutes
 import com.roseoj.myapplication.core.data.repository.UserDataRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 const val countDownTime = 120 // in seconds
 
-@HiltViewModel
-class AuthScreenViewModel @Inject constructor(
+class AuthScreenViewModel(
     private val userDataRepository: UserDataRepository
 ): ViewModel() {
     

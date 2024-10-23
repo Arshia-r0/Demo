@@ -32,7 +32,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
@@ -40,12 +39,13 @@ import com.roseoj.myapplication.core.common.convertToTime
 import com.roseoj.myapplication.feature.welcome.auth.components.OtpTextField
 import com.roseoj.myapplication.feature.welcome.auth.components.PhoneNumberTextField
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun AuthScreen(
     navController: NavController = rememberNavController(),
-    viewModel: AuthScreenViewModel = hiltViewModel()
+    viewModel: AuthScreenViewModel = koinViewModel()
 ) {
     var authStage by viewModel.authStage
     val phoneNumber by viewModel.phoneNumber
@@ -199,7 +199,6 @@ fun AuthStage(
 
 @Composable
 fun OtpStage(
-    
     phoneNumber: TextFieldValue = TextFieldValue(),
     otp: TextFieldValue = TextFieldValue(),
     otpError: Boolean = false,

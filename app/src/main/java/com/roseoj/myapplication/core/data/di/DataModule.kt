@@ -1,11 +1,16 @@
 package com.roseoj.myapplication.core.data.di
 
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.roseoj.myapplication.core.data.repository.OfflineUserDataRepository
+import com.roseoj.myapplication.core.data.repository.UserDataRepository
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
 
-@Module
-@InstallIn(SingletonComponent::class)
-class DataModule {
+val dataModule = module {
+    
+    singleOf(::OfflineUserDataRepository) {
+        bind<UserDataRepository>()
+    }
+    
 }

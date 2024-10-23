@@ -4,22 +4,20 @@ import com.roseoj.myapplication.core.datastore.DemoPreferencesDataSource
 import com.roseoj.myapplication.core.model.data.UserData
 import com.roseoj.myapplication.core.model.data.type.AppTheme
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
 
-class UserDataRepository @Inject constructor(
+class OfflineUserDataRepository(
     private val demoPreferencesDataSource: DemoPreferencesDataSource
-){
+): UserDataRepository {
+    
+    override val userData: Flow<UserData> = demoPreferencesDataSource.userData
 
-    val userData: Flow<UserData> = demoPreferencesDataSource.userData
-
-    suspend fun setAppTheme(appTheme: AppTheme) {
+    override suspend fun setAppTheme(appTheme: AppTheme) {
         demoPreferencesDataSource.setAppTheme(appTheme)
     }
 
-    suspend fun setAuthorization(token: Boolean) {
+    override suspend fun setAuthorization(token: Boolean) {
         demoPreferencesDataSource.setAuthorization(token)
     }
-
-
+    
 }
