@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -73,6 +74,7 @@ fun DemoApp(
                     modifier = Modifier
                         .background(color = MaterialTheme.colorScheme.primary)
                         .fillMaxWidth()
+                        .height(70.dp)
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.End
                 ) {
