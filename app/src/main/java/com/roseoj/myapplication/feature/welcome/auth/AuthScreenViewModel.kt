@@ -39,14 +39,16 @@ class AuthScreenViewModel(
     
     fun setIsChecked(newIsChecked: Boolean) { isChecked.value = newIsChecked }
     
-    fun submitPhoneNumber() {
+    fun submitPhoneNumber(isOffline: Boolean) {
+        if(isOffline) return
         if(validatePhoneNumber()) {
             authStage.value = AuthStage.Otp
             requestOtp()
         }
     }
     
-    fun submitOtp() {
+    fun submitOtp(isOffline: Boolean) {
+        if(isOffline) return
         if(validateOtp()) {
             countDown.value = false
             authenticate()

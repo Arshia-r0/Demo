@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +38,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AuthScreen(
+    isOffline: Boolean,
+    snackbarHostState: SnackbarHostState = SnackbarHostState(),
     navController: NavController = rememberNavController(),
     viewModel: AuthScreenViewModel = koinViewModel()
 ) {
@@ -46,9 +51,18 @@ fun AuthScreen(
     val isChecked by viewModel.isChecked
     val otpError by  viewModel.otpError
     val invalidNumber by viewModel.invalidNumber
+    val context = LocalContext.current
     val navigateToPhoneNumberScreen = {
         authStage = AuthStage.PhoneNumber
         otp = TextFieldValue()
+    }
+    LaunchedEffect(isOffline) {
+        if(isOffline) {
+            snackbarHostState.showSnackbar(
+                message = context.getString(R.string.not_connected_message),
+                duration = SnackbarDuration.Indefinite
+            )
+        }
     }
     LaunchedEffect(countDown) {
         while(countDown) {
@@ -68,8 +82,8 @@ fun AuthScreen(
         invalidNumber = invalidNumber,
         setPhoneNumber = { viewModel.setPhoneNumber(it) },
         setOtp = { viewModel.setOtp(it)},
-        submitPhoneNumber = { viewModel.submitPhoneNumber() },
-        submitOtp = { viewModel.submitOtp() },
+        submitPhoneNumber = { viewModel.submitPhoneNumber(isOffline) },
+        submitOtp = { viewModel.submitOtp(isOffline) },
         setIsChecked = { viewModel.setIsChecked(it) },
         navigateToPhoneNumberScreen = navigateToPhoneNumberScreen,
         otpError = otpError,

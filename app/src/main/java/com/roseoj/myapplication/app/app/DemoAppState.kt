@@ -15,20 +15,27 @@ import com.roseoj.myapplication.core.designsystem.component.navigateToHome
 import com.roseoj.myapplication.core.designsystem.component.navigateToOrder
 import com.roseoj.myapplication.core.designsystem.component.navigateToProfile
 import com.roseoj.myapplication.core.designsystem.component.navigateToSearch
+import com.roseoj.myapplication.core.network.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 
 @Composable
 fun rememberDemoAppState(
+    networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController()
 ): DemoAppState {
     return remember(
+        networkMonitor,
         navController,
         coroutineScope,
     ) {
         DemoAppState(
             navController = navController,
+            networkMonitor = networkMonitor,
             coroutineScope = coroutineScope,
         )
     }
@@ -37,6 +44,7 @@ fun rememberDemoAppState(
 @Stable
 class DemoAppState(
     val navController: NavHostController,
+    networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope,
 ) {
 
@@ -49,6 +57,14 @@ class DemoAppState(
                 currentDestination?.hasRoute(route = topLevelDestination.route) ?: false
             }
         }
+    
+    val isOffline = networkMonitor.isOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false
+        )
     
     
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {

@@ -5,6 +5,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.runtime.Composable
@@ -32,6 +33,14 @@ fun DemoNavigationScaffold(
 ) {
     NavigationSuiteScaffold(
         containerColor = Color.Unspecified,
+        navigationSuiteColors = NavigationSuiteDefaults.colors(
+            navigationBarContentColor = Color.Transparent,
+            navigationRailContentColor = Color.Transparent,
+            navigationBarContainerColor = Color.Transparent,
+            navigationRailContainerColor = Color.Transparent,
+            navigationDrawerContainerColor = Color.Transparent,
+            navigationDrawerContentColor = Color.Transparent
+        ),
         navigationSuiteItems = {
             TopLevelDestination.entries.forEach { destination ->
                 val selected = currentDestination.isRouteInHierarchy(destination.route)

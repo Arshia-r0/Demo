@@ -4,6 +4,7 @@ import android.app.Application
 import com.roseoj.myapplication.app.di.appModule
 import com.roseoj.myapplication.core.data.di.dataModule
 import com.roseoj.myapplication.core.datastore.di.dataStoreModule
+import com.roseoj.myapplication.core.network.di.networkModule
 import com.roseoj.myapplication.feature.di.featureModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,7 +23,8 @@ class MainApplication: Application() {
                 appModule,
                 featureModule,
                 dataModule,
-                dataStoreModule
+                dataStoreModule,
+                networkModule
             )
         }
     }

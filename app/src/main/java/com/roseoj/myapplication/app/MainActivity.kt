@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
+import com.roseoj.myapplication.core.network.util.NetworkMonitor
 import com.roseoj.myapplication.feature.welcome.WelcomeNavHost
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -21,6 +22,8 @@ import org.koin.androidx.compose.KoinAndroidContext
 
 class MainActivity : ComponentActivity() {
 
+    private val networkMonitor by inject<NetworkMonitor>()
+    
     private val viewModel by inject<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +55,8 @@ class MainActivity : ComponentActivity() {
             KoinAndroidContext {
                 MyApplicationTheme {
                     if (!loading) WelcomeNavHost(
-                        (uiState as MainActivityUiState.Success).data.authorized
+                        networkMonitor = networkMonitor,
+                        isAuthorized = (uiState as MainActivityUiState.Success).data.authorized
                     )
                 }
             }

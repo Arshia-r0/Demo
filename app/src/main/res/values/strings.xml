@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="not_connected_message">دسترسی به اینترنت موجود نیست</string>
     <string name="onboarding_page1_title">سفارش آسان غذا با چند کلیک</string>
     <string name="onboarding_page1_description">با اپلیکیشن ترخینه می‌تونی در عرض چند ثانیه و با چند کلیک به راحتی  سفارش خودت رو ثبت کنی</string>
     <string name="onboarding_page2_title">ارسال سریع سفارشات</string>
