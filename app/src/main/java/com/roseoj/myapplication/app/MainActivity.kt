@@ -11,7 +11,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.roseoj.myapplication.app.app.rememberDemoAppState
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
 import com.roseoj.myapplication.feature.welcome.WelcomeNavHost
 import kotlinx.coroutines.flow.onEach
@@ -41,8 +40,9 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             when(uiState) {
                 MainActivityUiState.Loading -> true
-                is MainActivityUiState.Success -> false.also {
+                is MainActivityUiState.Success -> {
                     loading = false
+                    false
                 }
             }
         }

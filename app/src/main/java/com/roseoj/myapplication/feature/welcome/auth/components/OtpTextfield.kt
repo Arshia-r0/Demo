@@ -11,14 +11,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -32,15 +38,20 @@ fun OtpTextField(
     otp: TextFieldValue = TextFieldValue(),
     otpError: Boolean = false,
     setOtp: (TextFieldValue) -> Unit = {},
-    focusManager: FocusManager = LocalFocusManager.current
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    focusManager: FocusManager = LocalFocusManager.current,
 ) {
     BasicTextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .focusRequester(focusRequester),
         value = otp,
         onValueChange = {
             setOtp(it)
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.NumberPassword,
+            imeAction = ImeAction.Done
+        ),
         decorationBox = {
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -55,8 +66,16 @@ fun OtpTextField(
                     Spacer(modifier = Modifier.width(8.dp))
                 }
             }
-        }
+        },
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+            }
+        )
     )
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 }
 
 @Composable
