@@ -29,7 +29,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        var loading by mutableStateOf(true)
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
 
         lifecycleScope.launch {
@@ -43,10 +42,7 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             when(uiState) {
                 MainActivityUiState.Loading -> true
-                is MainActivityUiState.Success -> {
-                    loading = false
-                    false
-                }
+                is MainActivityUiState.Success -> false
             }
         }
 
@@ -54,10 +50,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             KoinAndroidContext {
                 MyApplicationTheme {
-                    if (!loading) WelcomeNavHost(
-                        networkMonitor = networkMonitor,
-                        isAuthorized = (uiState as MainActivityUiState.Success).data.authorized
-                    )
+                    if(uiState is MainActivityUiState.Success) {
+                        WelcomeNavHost(
+                            networkMonitor = networkMonitor,
+                            isAuthorized = (uiState as MainActivityUiState.Success).data.authorized
+                        )
+                    }
                 }
             }
         }
