@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -74,8 +73,8 @@ fun AuthScreen(
         }
     }
     Content(
-        authStage = authStage,
         navController = navController,
+        authStage = authStage,
         phoneNumber = phoneNumber,
         otp = otp,
         isChecked = isChecked,
@@ -98,7 +97,6 @@ fun AuthScreen(
 }
 
 @Preview(showBackground = true)
-@PreviewScreenSizes
 @Composable
 fun Content(
     navController: NavController = rememberNavController(),

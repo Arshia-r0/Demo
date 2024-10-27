@@ -60,8 +60,7 @@ fun DemoNavigationScaffold(
                     label = {
                         Text(
                             text = stringResource(destination.text),
-                            color = if(selected) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.secondary
+                            color = if(selected) MaterialTheme.colorScheme.primary else Color.Black
                         )
                     }
                 )

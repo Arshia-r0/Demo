@@ -18,7 +18,8 @@ private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF417F56),
     secondary = Color(0xFFCBCBCB),
     error = Color(0xFFD75D5D),
-    errorContainer = Color(0xFFFFF2F2)
+    errorContainer = Color(0xFFFFF2F2),
+    primaryContainer = Color(0xFFE5F2E9)
 )
 
 @Composable
