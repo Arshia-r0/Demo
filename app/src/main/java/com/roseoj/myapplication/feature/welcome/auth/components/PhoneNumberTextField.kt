@@ -2,6 +2,7 @@ package com.roseoj.myapplication.feature.welcome.auth.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +38,7 @@ fun PhoneNumberTextField(
     OutlinedTextField(
         value = phoneNumber,
         onValueChange = { setPhoneNumber(it) },
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
+        modifier = Modifier.widthIn(max = 488.dp).fillMaxWidth().padding(horizontal = 50.dp),
         singleLine = true,
         isError = invalidNumber,
         label = {

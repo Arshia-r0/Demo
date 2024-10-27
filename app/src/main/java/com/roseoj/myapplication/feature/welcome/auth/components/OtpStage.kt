@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -113,7 +114,7 @@ fun OtpStage(
     }
     Button(
         onClick = { submitOtp() },
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
+        modifier = Modifier.widthIn(320.dp).fillMaxWidth().padding(horizontal = 50.dp),
         shape = RoundedCornerShape(5.dp)
     ) {
         Text(

@@ -97,10 +97,11 @@ fun AuthScreen(
 }
 
 @Preview(showBackground = true)
+//@PreviewScreenSizes
 @Composable
 fun Content(
     navController: NavController = rememberNavController(),
-    authStage: AuthStage = AuthStage.PhoneNumber,
+    authStage: AuthStage = AuthStage.Otp,
     phoneNumber: TextFieldValue = TextFieldValue(),
     otp: TextFieldValue = TextFieldValue(),
     isChecked: Boolean = false,
@@ -169,4 +170,3 @@ fun Content(
         }
     }
 }
-
