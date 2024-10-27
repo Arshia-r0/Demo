@@ -48,7 +48,7 @@ fun AuthScreen(
     var countDown by viewModel.countDown
     val phoneNumber by viewModel.phoneNumber
     val isChecked by viewModel.isChecked
-    val otpError by  viewModel.otpError
+    val otpError by viewModel.otpError
     val invalidNumber by viewModel.invalidNumber
     val context = LocalContext.current
     val navigateToPhoneNumberScreen = {
@@ -56,7 +56,7 @@ fun AuthScreen(
         otp = TextFieldValue()
     }
     LaunchedEffect(isOffline) {
-        if(isOffline) {
+        if (isOffline) {
             snackbarHostState.showSnackbar(
                 message = context.getString(R.string.not_connected_message),
                 duration = SnackbarDuration.Indefinite
@@ -64,10 +64,10 @@ fun AuthScreen(
         }
     }
     LaunchedEffect(countDown) {
-        while(countDown) {
+        while (countDown) {
             delay(1000L)
             timeLeft--
-            if(timeLeft == 0) {
+            if (timeLeft == 0) {
                 countDown = false
             }
         }
@@ -80,7 +80,7 @@ fun AuthScreen(
         isChecked = isChecked,
         invalidNumber = invalidNumber,
         setPhoneNumber = { viewModel.setPhoneNumber(it) },
-        setOtp = { viewModel.setOtp(it)},
+        setOtp = { viewModel.setOtp(it) },
         submitPhoneNumber = { viewModel.submitPhoneNumber(isOffline) },
         submitOtp = { viewModel.submitOtp(isOffline) },
         setIsChecked = { viewModel.setIsChecked(it) },
@@ -91,7 +91,7 @@ fun AuthScreen(
         requestOtp = { viewModel.requestOtp() }
     )
     BackHandler {
-        if(authStage == AuthStage.Otp) navigateToPhoneNumberScreen()
+        if (authStage == AuthStage.Otp) navigateToPhoneNumberScreen()
         else navController.navigateUp()
     }
 }
@@ -133,13 +133,15 @@ fun Content(
             label = "stage",
             transitionSpec = {
                 slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    towards = if (authStage == AuthStage.PhoneNumber) AnimatedContentTransitionScope.SlideDirection.Start
+                    else AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(200)
                 ) togetherWith slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    towards = if (authStage == AuthStage.PhoneNumber) AnimatedContentTransitionScope.SlideDirection.Start
+                    else AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(200)
                 )
-            }        ) {
+            }) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
