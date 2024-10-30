@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -117,6 +118,7 @@ fun Content(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
+                                .clip(RoundedCornerShape(10.dp))
                                 .border(
                                     border = BorderStroke(
                                         1.dp,
