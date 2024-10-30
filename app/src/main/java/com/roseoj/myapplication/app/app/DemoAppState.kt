@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.roseoj.myapplication.app.navigation.TopLevelDestination
+import com.roseoj.myapplication.app.navigation.TopLevelRoutes
 import com.roseoj.myapplication.core.network.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,8 +40,9 @@ class DemoAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope,
 ) {
+    val topLevelDestinations = TopLevelRoutes.entries
     
-    var currentDestination = mutableStateOf(TopLevelDestination.HOME)
+    var topLevelDestination = mutableStateOf(TopLevelRoutes.HomeRoute)
     
     val isOffline = networkMonitor.isOnline
         .map(Boolean::not)
@@ -51,14 +52,4 @@ class DemoAppState(
             initialValue = false
         )
     
-    
-    fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
-        currentDestination.value = when (topLevelDestination) {
-            TopLevelDestination.HOME -> TopLevelDestination.HOME
-            TopLevelDestination.SEARCH -> TopLevelDestination.SEARCH
-            TopLevelDestination.CART -> TopLevelDestination.CART
-            TopLevelDestination.ORDER -> TopLevelDestination.ORDER
-            TopLevelDestination.PROFILE -> TopLevelDestination.PROFILE
-        }
-    }
 }

@@ -25,13 +25,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
 import com.roseoj.myapplication.app.app.DemoAppState
-import com.roseoj.myapplication.app.navigation.TopLevelDestination
+import com.roseoj.myapplication.app.navigation.TopLevelRoutes
 
 
 @Composable
 fun MainScaffold(
     appState: DemoAppState,
-    currentDestination: TopLevelDestination,
+    currentDestination: TopLevelRoutes,
     windowAdaptiveInfo: WindowAdaptiveInfo,
     isOffline: Boolean,
     snackBarHostState: SnackbarHostState,

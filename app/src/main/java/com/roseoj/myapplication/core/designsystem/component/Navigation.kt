@@ -14,13 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.roseoj.myapplication.app.app.DemoAppState
-import com.roseoj.myapplication.app.navigation.TopLevelDestination
+import com.roseoj.myapplication.app.navigation.TopLevelRoutes
 
 
 @Composable
 fun DemoNavigationScaffold(
     appState: DemoAppState,
-    currentDestination: TopLevelDestination,
+    currentDestination: TopLevelRoutes,
     windowAdaptiveInfo: WindowAdaptiveInfo,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -36,11 +36,11 @@ fun DemoNavigationScaffold(
             navigationDrawerContentColor = Color.Transparent
         ),
         navigationSuiteItems = {
-            TopLevelDestination.entries.forEach { destination ->
+            appState.topLevelDestinations.forEach { destination ->
                 val selected = currentDestination == destination
                 item(
                     selected = selected,
-                    onClick = { appState.navigateToTopLevelDestination(destination) },
+                    onClick = { appState.topLevelDestination.value = destination },
                     icon = {
                         Icon(
                             painter = painterResource(

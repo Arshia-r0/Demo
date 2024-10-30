@@ -69,9 +69,10 @@ fun MainScreenBox(
     toggleBottomSheet: () -> Unit = {}
 ) {
    Column(
-       modifier = Modifier.fillMaxWidth()
+       modifier = Modifier
+           .fillMaxWidth()
            .height(360.dp)
-           .background(if(id) MaterialTheme.colorScheme.primaryContainer else Color.White)
+           .background(if (id) MaterialTheme.colorScheme.primaryContainer else Color.White)
            .padding(vertical = 15.dp),
        verticalArrangement = Arrangement.spacedBy(20.dp)
    ) {
@@ -82,20 +83,24 @@ fun MainScreenBox(
            Text(
                text = category.title,
                textAlign = TextAlign.End,
-               modifier = Modifier.width(150.dp)
+               modifier = Modifier
+                   .width(150.dp)
                    .clip(RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
-                   .background(if(id) Color.White else MaterialTheme.colorScheme.primaryContainer)
+                   .background(if (id) Color.White else MaterialTheme.colorScheme.primaryContainer)
                    .padding(10.dp)
            )
        }
        LazyRow(
-           modifier = Modifier.fillMaxWidth().weight(1f),
+           modifier = Modifier
+               .fillMaxWidth()
+               .weight(1f),
            reverseLayout = true,
            horizontalArrangement = Arrangement.End,
        ) {
            items(items = category.items, key = { it.id }) {
                Box(
-                   modifier = Modifier.padding(5.dp)
+                   modifier = Modifier
+                       .padding(5.dp)
                        .fillMaxHeight()
                        .width(160.dp)
                        .clip(RoundedCornerShape(5.dp))
@@ -110,7 +115,8 @@ fun MainScreenBox(
                        Image(
                            painter = painterResource(it.image),
                            contentDescription = "image",
-                           modifier = Modifier.fillMaxHeight(0.5f)
+                           modifier = Modifier
+                               .fillMaxHeight(0.5f)
                                .fillMaxWidth(),
                        )
                        Spacer(modifier = Modifier.height(10.dp))
@@ -139,7 +145,7 @@ fun MainScreenBox(
                             Text(
                                 modifier = Modifier.padding(horizontal = 5.dp),
                                 text = "افزودن به سبد خرید",
-                                fontSize = 9.sp,
+                                fontSize = 12.sp,
                                 textAlign = TextAlign.Center,
                             )
                        }

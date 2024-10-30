@@ -13,8 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.roseoj.myapplication.app.app.DemoAppState
-import com.roseoj.myapplication.app.navigation.DemoRoutes.MainRoutes
-import com.roseoj.myapplication.app.navigation.DemoRoutes.WelcomeRoutes
 import com.roseoj.myapplication.core.designsystem.component.MainScaffold
 import com.roseoj.myapplication.feature.cart.CartScreen
 import com.roseoj.myapplication.feature.home.HomeScreen
@@ -33,14 +31,14 @@ fun DemoNavHost(
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
 ) {
     val navController = appState.navController
-    val currentDestination by appState.currentDestination
+    val currentDestination by appState.topLevelDestination
     val isOffline by appState.isOffline.collectAsStateWithLifecycle()
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = appState.navController,
-        startDestination = if (isAuthorized) MainRoutes else WelcomeRoutes
+        startDestination = if (isAuthorized) DemoRoutes.MainRoute else DemoRoutes.WelcomeRoutes
     ) {
-        composable<MainRoutes> {
+        composable<DemoRoutes.MainRoute> {
             MainScaffold(
                 appState = appState,
                 currentDestination = currentDestination,
@@ -48,26 +46,26 @@ fun DemoNavHost(
                 isOffline = isOffline,
                 snackBarHostState = snackbarHostState,
             ) {
-                when (currentDestination.route) {
-                    MainRoutes.HomeRoute::class -> HomeScreen()
-                    MainRoutes.SearchRoute::class -> SearchScreen()
-                    MainRoutes.CartRoute::class -> CartScreen()
-                    MainRoutes.OrderRoute::class -> OrderScreen()
-                    MainRoutes.ProfileRoute::class -> ProfileScreen()
+                when (currentDestination) {
+                    TopLevelRoutes.HomeRoute -> HomeScreen()
+                    TopLevelRoutes.SearchRoute -> SearchScreen()
+                    TopLevelRoutes.CartRoute -> CartScreen()
+                    TopLevelRoutes.OrderRoute -> OrderScreen()
+                    TopLevelRoutes.ProfileRoute -> ProfileScreen()
                 }
             }
         }
-        navigation<WelcomeRoutes>(
-            startDestination = WelcomeRoutes.OnboardingRoute
+        navigation<DemoRoutes.WelcomeRoutes>(
+            startDestination = DemoRoutes.WelcomeRoutes.OnboardingRoute
         ) {
-            composable<WelcomeRoutes.OnboardingRoute> {
+            composable<DemoRoutes.WelcomeRoutes.OnboardingRoute> {
                 OnboardingScreen(
                     nextScreen = {
-                        navController.navigate(WelcomeRoutes.AuthRoute)
+                        navController.navigate(DemoRoutes.WelcomeRoutes.AuthRoute)
                     }
                 )
             }
-            composable<WelcomeRoutes.AuthRoute> {
+            composable<DemoRoutes.WelcomeRoutes.AuthRoute> {
                 AuthScreen(
                     isOffline = isOffline,
                     snackbarHostState = snackbarHostState,
