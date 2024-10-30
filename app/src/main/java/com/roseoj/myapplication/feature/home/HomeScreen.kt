@@ -92,12 +92,11 @@ fun Content(
                     Text(text = "choose location")
                 }
             },
-            
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 150.dp, max = 450.dp)
+                    .heightIn(min = 150.dp, max = 500.dp)
                     .padding(horizontal = 15.dp)
                     .padding(top = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,9 +106,9 @@ fun Content(
                         .nestedScroll(nestedScrollConnection)
                         .fillMaxWidth()
                         .heightIn(max = 350.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    items(5) {
+                    items(10) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -130,7 +129,7 @@ fun Content(
                 Spacer(modifier = Modifier.height(10.dp))
                 Button(
                     modifier = Modifier.height(40.dp),
-                    onClick = {},
+                    onClick = toggleBottomSheet,
                 ) {
                     Text("Submit")
                 }
