@@ -7,7 +7,6 @@ inline fun <reified T: Enum<T>> T.next(): T {
     return values[nextOrdinal]
 }
 
-
 fun Int.convertToTime(): String {
     val minutes = this / 60
     val seconds = this % 60

@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.roseoj.demo.R
@@ -34,9 +35,10 @@ import com.roseoj.myapplication.core.model.home.Category
 import com.roseoj.myapplication.core.model.home.Food
 
 
+@Preview
 @Composable
 fun MainScreenBox(
-    id: Boolean,
+    id: Boolean = true,
     category: Category = Category(
         title = "پیشنهاد ویژه",
         items = listOf(
@@ -122,7 +124,7 @@ fun MainScreenBox(
                        Spacer(modifier = Modifier.height(10.dp))
                        Row(
                            modifier = Modifier.fillMaxWidth(),
-                           horizontalArrangement = Arrangement.SpaceBetween,
+                           horizontalArrangement = Arrangement.SpaceEvenly,
                            verticalAlignment = Alignment.CenterVertically,
                        ) {
                            Text(

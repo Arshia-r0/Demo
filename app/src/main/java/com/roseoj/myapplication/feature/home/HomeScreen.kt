@@ -18,7 +18,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,12 +36,12 @@ import androidx.compose.ui.unit.dp
 import com.roseoj.myapplication.core.designsystem.component.MainScreenBox
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val toggleBottomSheet = {
-        showBottomSheet = !showBottomSheet
-    }
+    val toggleBottomSheet = { showBottomSheet = !showBottomSheet }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val nestedScrollConnection = object : NestedScrollConnection {
         override fun onPostScroll(
             consumed: Offset,
@@ -50,6 +52,7 @@ fun HomeScreen() {
     Content(
         showBottomSheet = showBottomSheet,
         toggleBottomSheet = toggleBottomSheet,
+        sheetState = sheetState,
         nestedScrollConnection = nestedScrollConnection,
     )
 }
@@ -59,6 +62,7 @@ fun HomeScreen() {
 fun Content(
     showBottomSheet: Boolean = false,
     nestedScrollConnection: NestedScrollConnection,
+    sheetState: SheetState,
     toggleBottomSheet: () -> Unit = {},
 ) {
     Column(
@@ -79,6 +83,7 @@ fun Content(
         ModalBottomSheet(
             modifier = Modifier.nestedScroll(nestedScrollConnection),
             onDismissRequest = toggleBottomSheet,
+            sheetState = sheetState,
             dragHandle = {
                 Row(
                     modifier = Modifier
@@ -95,7 +100,7 @@ fun Content(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 150.dp, max = 450.dp)
+                    .heightIn(min = 70.dp)
                     .padding(horizontal = 15.dp)
                     .padding(top = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,10 +109,10 @@ fun Content(
                     modifier = Modifier
                         .nestedScroll(nestedScrollConnection)
                         .fillMaxWidth()
-                        .heightIn(max = 350.dp),
+                        .heightIn(max = 360.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(10) {
+                    items(20) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -115,7 +120,7 @@ fun Content(
                                 .border(
                                     border = BorderStroke(
                                         1.dp,
-                                        MaterialTheme.colorScheme.secondary
+                                        MaterialTheme.colorScheme.secondary,
                                     ),
                                     shape = RoundedCornerShape(10.dp)
                                 )
