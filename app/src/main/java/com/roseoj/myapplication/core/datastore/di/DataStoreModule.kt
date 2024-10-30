@@ -17,7 +17,7 @@ val dataStoreModule = module {
     single {
         DataStoreFactory.create(
             serializer = UserDataSerializer,
-            produceFile = { androidContext().dataStoreFile("user_data.pb") },
+            produceFile = { androidContext().dataStoreFile("demo.pb") },
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
         )
     }
