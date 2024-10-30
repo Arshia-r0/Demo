@@ -36,11 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
 import com.roseoj.myapplication.core.common.next
-import com.roseoj.myapplication.feature.welcome.WelcomeRoutes
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -48,15 +45,12 @@ import org.koin.androidx.compose.koinViewModel
 @PreviewScreenSizes
 @Composable
 fun OnboardingScreen(
-    navController: NavController = rememberNavController(),
+    nextScreen: () -> Unit = {},
     viewModel: OnboardingScreenViewModel = koinViewModel()
 ) {
     var page by viewModel.page
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
-    val nextScreen = {
-        navController.navigate(WelcomeRoutes.AuthRoute)
-    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {

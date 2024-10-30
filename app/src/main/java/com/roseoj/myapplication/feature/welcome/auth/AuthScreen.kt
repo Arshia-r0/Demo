@@ -26,8 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.roseoj.demo.R
 import com.roseoj.myapplication.feature.welcome.auth.components.OtpStage
 import com.roseoj.myapplication.feature.welcome.auth.components.PhoneNumberStage
@@ -39,7 +37,6 @@ import org.koin.androidx.compose.koinViewModel
 fun AuthScreen(
     isOffline: Boolean,
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
-    navController: NavController = rememberNavController(),
     viewModel: AuthScreenViewModel = koinViewModel()
 ) {
     var authStage by viewModel.authStage
@@ -73,7 +70,6 @@ fun AuthScreen(
         }
     }
     Content(
-        navController = navController,
         authStage = authStage,
         phoneNumber = phoneNumber,
         otp = otp,
@@ -92,7 +88,6 @@ fun AuthScreen(
     )
     BackHandler {
         if (authStage == AuthStage.Otp) navigateToPhoneNumberScreen()
-        else navController.navigateUp()
     }
 }
 
@@ -100,7 +95,6 @@ fun AuthScreen(
 //@PreviewScreenSizes
 @Composable
 fun Content(
-    navController: NavController = rememberNavController(),
     authStage: AuthStage = AuthStage.Otp,
     phoneNumber: TextFieldValue = TextFieldValue(),
     otp: TextFieldValue = TextFieldValue(),

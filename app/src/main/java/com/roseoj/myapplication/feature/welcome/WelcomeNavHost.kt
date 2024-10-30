@@ -43,16 +43,17 @@ fun WelcomeNavHost(
             navController = navController,
             startDestination = WelcomeRoutes.OnboardingRoute
         ) {
-            composable<WelcomeRoutes.OnboardingRoute> {
+            composable<WelcomeRoutes.OnboardingRoute>{
                 OnboardingScreen(
-                    navController = navController
+                    nextScreen = {
+                        navController.navigate(WelcomeRoutes.AuthRoute)
+                    }
                 )
             }
             composable<WelcomeRoutes.AuthRoute> {
                 AuthScreen(
                     isOffline = isOffline,
                     snackbarHostState = snackbarHostState,
-                    navController = navController
                 )
             }
         }

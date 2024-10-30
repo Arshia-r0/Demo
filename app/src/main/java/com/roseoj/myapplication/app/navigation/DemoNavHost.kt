@@ -23,9 +23,7 @@ fun DemoNavHost(
         startDestination = DemoRoutes.HomeRoute
     ) {
         composable<DemoRoutes.HomeRoute> {
-            HomeScreen(
-                appState = appState,
-            )
+            HomeScreen()
         }
         composable<DemoRoutes.SearchRoute> {
             SearchScreen()

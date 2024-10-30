@@ -7,16 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import com.roseoj.myapplication.app.app.DemoAppState
 import com.roseoj.myapplication.core.designsystem.component.MainScreenBox
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun HomeScreen(
-    appState: DemoAppState,
-    viewModel: HomeScreenViewModel = koinViewModel()
-) {
+fun HomeScreen() {
    Content()
 }
 
@@ -32,6 +27,9 @@ fun Content() {
                 MainScreenBox(true)
                 MainScreenBox(false)
                 MainScreenBox(true)
+                MainScreenBox(false)
+                MainScreenBox(true)
+                MainScreenBox(false)
             }
         }
     }
