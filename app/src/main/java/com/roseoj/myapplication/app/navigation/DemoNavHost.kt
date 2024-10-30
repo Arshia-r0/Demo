@@ -47,11 +47,11 @@ fun DemoNavHost(
                 snackBarHostState = snackbarHostState,
             ) {
                 when (currentDestination) {
-                    TopLevelRoutes.HomeRoute -> HomeScreen()
-                    TopLevelRoutes.SearchRoute -> SearchScreen()
-                    TopLevelRoutes.CartRoute -> CartScreen()
-                    TopLevelRoutes.OrderRoute -> OrderScreen()
-                    TopLevelRoutes.ProfileRoute -> ProfileScreen()
+                    TopLevelDestinations.Home -> HomeScreen()
+                    TopLevelDestinations.Search -> SearchScreen()
+                    TopLevelDestinations.Cart -> CartScreen()
+                    TopLevelDestinations.Order -> OrderScreen()
+                    TopLevelDestinations.Profile -> ProfileScreen()
                 }
             }
         }

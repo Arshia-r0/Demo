@@ -14,13 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.roseoj.myapplication.app.app.DemoAppState
-import com.roseoj.myapplication.app.navigation.TopLevelRoutes
+import com.roseoj.myapplication.app.navigation.TopLevelDestinations
 
 
 @Composable
 fun DemoNavigationScaffold(
     appState: DemoAppState,
-    currentDestination: TopLevelRoutes,
+    currentDestination: TopLevelDestinations,
     windowAdaptiveInfo: WindowAdaptiveInfo,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit

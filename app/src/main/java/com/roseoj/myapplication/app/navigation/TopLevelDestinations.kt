@@ -4,32 +4,32 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.roseoj.demo.R
 
-enum class TopLevelRoutes(
+enum class TopLevelDestinations(
     @DrawableRes val selectedIcon: Int,
     @DrawableRes val unselectedIcon: Int,
     @StringRes val text: Int,
 ) {
-    ProfileRoute(
+    Profile(
         selectedIcon = R.drawable.profile_selected,
         unselectedIcon = R.drawable.profile,
         text = R.string.navbar_profile,
     ),
-    OrderRoute(
+    Order(
         selectedIcon = R.drawable.order_selected,
         unselectedIcon = R.drawable.order,
         text = R.string.navbar_order,
     ),
-    CartRoute(
+    Cart(
         selectedIcon = R.drawable.cart_selected,
         unselectedIcon = R.drawable.cart,
         text = R.string.navbar_cart,
     ),
-    SearchRoute(
+    Search(
         selectedIcon = R.drawable.search_selected,
         unselectedIcon = R.drawable.search,
         text = R.string.navbar_search,
     ),
-    HomeRoute(
+    Home(
         selectedIcon = R.drawable.home_selected,
         unselectedIcon = R.drawable.home,
         text = R.string.navbar_home,
