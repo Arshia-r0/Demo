@@ -66,6 +66,7 @@ fun MainScreenBox(
             )
         ),
     ),
+    toggleBottomSheet: () -> Unit = {}
 ) {
    Column(
        modifier = Modifier.fillMaxWidth()
@@ -130,7 +131,7 @@ fun MainScreenBox(
                        }
                        Spacer(modifier = Modifier.height(10.dp))
                        Button(
-                           onClick = {},
+                           onClick = toggleBottomSheet,
                            shape = RoundedCornerShape(10.dp),
                            contentPadding = PaddingValues(0.dp),
                            modifier = Modifier.fillMaxWidth()
