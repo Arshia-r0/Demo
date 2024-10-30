@@ -13,20 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
 import com.roseoj.myapplication.app.app.DemoAppState
-import com.roseoj.myapplication.app.navigation.DemoRoutes
 import com.roseoj.myapplication.app.navigation.TopLevelDestination
-import kotlin.reflect.KClass
 
 
 @Composable
 fun DemoNavigationScaffold(
     appState: DemoAppState,
-    currentDestination: NavDestination?,
+    currentDestination: TopLevelDestination,
     windowAdaptiveInfo: WindowAdaptiveInfo,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -43,7 +37,7 @@ fun DemoNavigationScaffold(
         ),
         navigationSuiteItems = {
             TopLevelDestination.entries.forEach { destination ->
-                val selected = currentDestination.isRouteInHierarchy(destination.route)
+                val selected = currentDestination == destination
                 item(
                     selected = selected,
                     onClick = { appState.navigateToTopLevelDestination(destination) },
@@ -72,18 +66,3 @@ fun DemoNavigationScaffold(
         content = content
     )
 }
-
-private fun NavDestination?.isRouteInHierarchy(route: KClass<*>) =
-    this?.hierarchy?.any {
-        it.hasRoute(route)
-    } ?: false
-
-fun NavController.navigateToHome() = navigate(route = DemoRoutes.HomeRoute)
-
-fun NavController.navigateToSearch() = navigate(route = DemoRoutes.SearchRoute)
-
-fun NavController.navigateToCart() = navigate(route = DemoRoutes.CartRoute)
-
-fun NavController.navigateToOrder() = navigate(route = DemoRoutes.OrderRoute)
-
-fun NavController.navigateToProfile() = navigate(route = DemoRoutes.ProfileRoute)

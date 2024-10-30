@@ -2,19 +2,12 @@ package com.roseoj.myapplication.app.app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.roseoj.myapplication.app.navigation.TopLevelDestination
-import com.roseoj.myapplication.core.designsystem.component.navigateToCart
-import com.roseoj.myapplication.core.designsystem.component.navigateToHome
-import com.roseoj.myapplication.core.designsystem.component.navigateToOrder
-import com.roseoj.myapplication.core.designsystem.component.navigateToProfile
-import com.roseoj.myapplication.core.designsystem.component.navigateToSearch
 import com.roseoj.myapplication.core.network.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,16 +40,8 @@ class DemoAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope,
 ) {
-
-    val currentDestination: NavDestination?
-        @Composable get() = navController.currentBackStackEntryAsState().value?.destination
     
-    val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() {
-            return TopLevelDestination.entries.firstOrNull { topLevelDestination ->
-                currentDestination?.hasRoute(route = topLevelDestination.route) ?: false
-            }
-        }
+    var currentDestination = mutableStateOf(TopLevelDestination.HOME)
     
     val isOffline = networkMonitor.isOnline
         .map(Boolean::not)
@@ -68,12 +53,12 @@ class DemoAppState(
     
     
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
-        when (topLevelDestination) {
-            TopLevelDestination.HOME -> navController.navigateToHome()
-            TopLevelDestination.SEARCH -> navController.navigateToSearch()
-            TopLevelDestination.CART -> navController.navigateToCart()
-            TopLevelDestination.ORDER -> navController.navigateToOrder()
-            TopLevelDestination.PROFILE -> navController.navigateToProfile()
+        currentDestination.value = when (topLevelDestination) {
+            TopLevelDestination.HOME -> TopLevelDestination.HOME
+            TopLevelDestination.SEARCH -> TopLevelDestination.SEARCH
+            TopLevelDestination.CART -> TopLevelDestination.CART
+            TopLevelDestination.ORDER -> TopLevelDestination.ORDER
+            TopLevelDestination.PROFILE -> TopLevelDestination.PROFILE
         }
     }
 }

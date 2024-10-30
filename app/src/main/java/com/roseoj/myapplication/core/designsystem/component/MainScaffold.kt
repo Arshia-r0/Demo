@@ -1,5 +1,6 @@
-package com.roseoj.myapplication.app.app
+package com.roseoj.myapplication.core.designsystem.component
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,35 +17,29 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.roseoj.demo.R
-import com.roseoj.myapplication.app.navigation.DemoNavHost
-import com.roseoj.myapplication.core.designsystem.component.DemoNavigationScaffold
-import com.roseoj.myapplication.core.designsystem.component.DemoSnackbar
-import com.roseoj.myapplication.core.network.util.NetworkMonitor
+import com.roseoj.myapplication.app.app.DemoAppState
+import com.roseoj.myapplication.app.navigation.TopLevelDestination
 
 
 @Composable
-fun DemoApp(
-    networkMonitor: NetworkMonitor,
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+fun MainScaffold(
+    appState: DemoAppState,
+    currentDestination: TopLevelDestination,
+    windowAdaptiveInfo: WindowAdaptiveInfo,
+    isOffline: Boolean,
+    snackBarHostState: SnackbarHostState,
+    context: Context = LocalContext.current,
+    content: @Composable () -> Unit,
 ) {
-    val appState = rememberDemoAppState(networkMonitor)
-    val currentDestination = appState.currentDestination
-    val snackBarHostState = remember { SnackbarHostState() }
-    val isOffline by appState.isOffline.collectAsStateWithLifecycle()
-    val context = LocalContext.current
     LaunchedEffect(isOffline) {
-        if(isOffline) {
+        if (isOffline) {
             snackBarHostState.showSnackbar(
                 message = context.getString(R.string.not_connected_message),
                 duration = SnackbarDuration.Indefinite
@@ -83,9 +78,7 @@ fun DemoApp(
                         contentDescription = "icon"
                     )
                 }
-                DemoNavHost(
-                    appState = appState,
-                )
+                content()
             }
         }
     }

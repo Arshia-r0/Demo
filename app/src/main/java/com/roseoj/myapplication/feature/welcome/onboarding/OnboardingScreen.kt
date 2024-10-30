@@ -21,6 +21,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,115 +52,121 @@ fun OnboardingScreen(
     var page by viewModel.page
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth().weight(0.4f)
-                .background(MaterialTheme.colorScheme.primary),
+    Scaffold(Modifier.fillMaxSize()) { ip ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(ip)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.4f)
+                    .background(MaterialTheme.colorScheme.primary),
             ) {
-                IconButton(
-                    onClick = { nextScreen() }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.close),
-                        contentDescription = "close",
-                        tint = Color.Unspecified
+                    IconButton(
+                        onClick = { nextScreen() }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.close),
+                            contentDescription = "close",
+                            tint = Color.Unspecified
+                        )
+                    }
+                }
+                AnimatedContent(
+                    targetState = page,
+                    label = "title",
+                    transitionSpec = {
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.End,
+                            animationSpec = tween(200)
+                        ) togetherWith slideOutOfContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.End,
+                            animationSpec = tween(200)
+                        )
+                    }
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 60.dp, bottom = 100.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            textAlign = TextAlign.End,
+                            text = stringResource(it.title),
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = Color.White,
+                        )
+                        Text(
+                            textAlign = TextAlign.End,
+                            text = stringResource(it.description),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White,
+                        )
+                    }
+                }
+            }
+            Box(
+                modifier = Modifier.weight(0.4f)
+            ) {
+                AnimatedContent(
+                    targetState = page,
+                    label = "icon",
+                    transitionSpec = {
+                        slideIntoContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.End,
+                            animationSpec = tween(200)
+                        ) togetherWith slideOutOfContainer(
+                            towards = AnimatedContentTransitionScope.SlideDirection.End,
+                            animationSpec = tween(200)
+                        )
+                    }
+                ) {
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        painter = painterResource(it.image),
+                        contentDescription = "icon"
                     )
                 }
             }
-            AnimatedContent(
-                targetState = page,
-                label = "title",
-                transitionSpec = {
-                    slideIntoContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(200)
-                    ) togetherWith slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(200)
-                    )
-                }
+            Box(
+                modifier = Modifier
+                    .weight(0.2f)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 60.dp, bottom = 100.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        textAlign = TextAlign.End,
-                        text = stringResource(it.title),
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = Color.White,
-                    )
-                    Text(
-                        textAlign = TextAlign.End,
-                        text = stringResource(it.description),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White,
-                    )
-                }
-            }
-        }
-        Box(
-            modifier = Modifier.weight(0.4f)
-        ) {
-            AnimatedContent(
-                targetState = page,
-                label = "icon",
-                transitionSpec = {
-                    slideIntoContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(200)
-                    ) togetherWith slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.End,
-                        animationSpec = tween(200)
-                    )
-                }
-            ) {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(it.image),
-                    contentDescription = "icon"
+                CircularProgressIndicator(
+                    progress = { progress },
+                    trackColor = MaterialTheme.colorScheme.secondary,
+                    gapSize = 0.dp,
+                    modifier = Modifier.size(60.dp),
+                    strokeCap = StrokeCap.Butt
+                )
+                Icon(
+                    painter = painterResource(
+                        if (page == OnboardingPages.Page3) R.drawable.check
+                        else R.drawable.arrow_left
+                    ),
+                    contentDescription = "next",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+                        if (page != OnboardingPages.Page3) page = page.next()
+                        else nextScreen()
+                    }
                 )
             }
-        }
-        Box(
-            modifier = Modifier
-                .weight(0.2f)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(
-                progress = { progress },
-                trackColor = MaterialTheme.colorScheme.secondary,
-                gapSize = 0.dp,
-                modifier = Modifier.size(60.dp),
-                strokeCap = StrokeCap.Butt
-            )
-            Icon(
-                painter = painterResource(
-                    if(page == OnboardingPages.Page3) R.drawable.check
-                    else R.drawable.arrow_left
-                ),
-                contentDescription = "next",
-                tint = Color.Unspecified,
-                modifier = Modifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) {
-                    if(page != OnboardingPages.Page3) page = page.next()
-                    else nextScreen()
-                }
-            )
         }
     }
 }

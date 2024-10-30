@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +30,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
+import com.roseoj.myapplication.core.designsystem.component.DemoSnackbar
 import com.roseoj.myapplication.feature.welcome.auth.components.OtpStage
 import com.roseoj.myapplication.feature.welcome.auth.components.PhoneNumberStage
 import kotlinx.coroutines.delay
@@ -36,8 +40,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun AuthScreen(
     isOffline: Boolean,
-    snackbarHostState: SnackbarHostState = SnackbarHostState(),
-    viewModel: AuthScreenViewModel = koinViewModel()
+    snackbarHostState: SnackbarHostState,
+    viewModel: AuthScreenViewModel = koinViewModel(),
 ) {
     var authStage by viewModel.authStage
     var otp by viewModel.otp
@@ -75,6 +79,7 @@ fun AuthScreen(
         otp = otp,
         isChecked = isChecked,
         invalidNumber = invalidNumber,
+        snackbarHostState = snackbarHostState,
         setPhoneNumber = { viewModel.setPhoneNumber(it) },
         setOtp = { viewModel.setOtp(it) },
         submitPhoneNumber = { viewModel.submitPhoneNumber(isOffline) },
@@ -92,7 +97,6 @@ fun AuthScreen(
 }
 
 @Preview(showBackground = true)
-//@PreviewScreenSizes
 @Composable
 fun Content(
     authStage: AuthStage = AuthStage.Otp,
@@ -103,6 +107,7 @@ fun Content(
     otpError: Boolean = false,
     timeLeft: Int = countDownTime,
     countDown: Boolean = false,
+    snackbarHostState: SnackbarHostState = SnackbarHostState(),
     setPhoneNumber: (TextFieldValue) -> Unit = {},
     setOtp: (TextFieldValue) -> Unit = {},
     submitPhoneNumber: () -> Unit = {},
@@ -111,56 +116,67 @@ fun Content(
     navigateToPhoneNumberScreen: () -> Unit = {},
     requestOtp: () -> Unit = {}
 ) {
-    Column(
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.tarkhine),
-            contentDescription = "ICON",
-            tint = Color.Unspecified
-        )
-        Spacer(modifier = Modifier.height(50.dp))
-        AnimatedContent(
-            targetState = authStage,
-            label = "stage",
-            transitionSpec = {
-                slideIntoContainer(
-                    towards = if (authStage == AuthStage.PhoneNumber) AnimatedContentTransitionScope.SlideDirection.Start
-                    else AnimatedContentTransitionScope.SlideDirection.End,
-                    animationSpec = tween(200)
-                ) togetherWith slideOutOfContainer(
-                    towards = if (authStage == AuthStage.PhoneNumber) AnimatedContentTransitionScope.SlideDirection.Start
-                    else AnimatedContentTransitionScope.SlideDirection.End,
-                    animationSpec = tween(200)
-                )
-            }) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                if (it == AuthStage.PhoneNumber) {
-                    PhoneNumberStage(
-                        phoneNumber = phoneNumber,
-                        invalidNumber = invalidNumber,
-                        isChecked = isChecked,
-                        submitPhoneNumber = { submitPhoneNumber() },
-                        setPhoneNumber = { setPhoneNumber(it) },
-                        setIsChecked = { setIsChecked(it) }
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) {
+                DemoSnackbar(it)
+            }
+        },
+    ) { ip ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(ip),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.tarkhine),
+                contentDescription = "ICON",
+                tint = Color.Unspecified
+            )
+            Spacer(modifier = Modifier.height(50.dp))
+            AnimatedContent(
+                targetState = authStage,
+                label = "stage",
+                transitionSpec = {
+                    slideIntoContainer(
+                        towards = if (authStage == AuthStage.PhoneNumber) AnimatedContentTransitionScope.SlideDirection.Start
+                        else AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
+                    ) togetherWith slideOutOfContainer(
+                        towards = if (authStage == AuthStage.PhoneNumber) AnimatedContentTransitionScope.SlideDirection.Start
+                        else AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
                     )
-                } else {
-                    OtpStage(
-                        phoneNumber = phoneNumber,
-                        otp = otp,
-                        otpError = otpError,
-                        timeLeft = timeLeft,
-                        countDown = countDown,
-                        setOtp = { setOtp(it) },
-                        navigateToPhoneNumberScreen = { navigateToPhoneNumberScreen() },
-                        submitOtp = { submitOtp() },
-                        requestOtp = { requestOtp() }
-                    )
+                }) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if (it == AuthStage.PhoneNumber) {
+                        PhoneNumberStage(
+                            phoneNumber = phoneNumber,
+                            invalidNumber = invalidNumber,
+                            isChecked = isChecked,
+                            submitPhoneNumber = { submitPhoneNumber() },
+                            setPhoneNumber = { setPhoneNumber(it) },
+                            setIsChecked = { setIsChecked(it) }
+                        )
+                    } else {
+                        OtpStage(
+                            phoneNumber = phoneNumber,
+                            otp = otp,
+                            otpError = otpError,
+                            timeLeft = timeLeft,
+                            countDown = countDown,
+                            setOtp = { setOtp(it) },
+                            navigateToPhoneNumberScreen = { navigateToPhoneNumberScreen() },
+                            submitOtp = { submitOtp() },
+                            requestOtp = { requestOtp() }
+                        )
+                    }
                 }
             }
         }

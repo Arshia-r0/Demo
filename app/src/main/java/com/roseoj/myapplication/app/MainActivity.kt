@@ -11,9 +11,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.roseoj.myapplication.app.app.rememberDemoAppState
+import com.roseoj.myapplication.app.navigation.DemoNavHost
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
 import com.roseoj.myapplication.core.network.util.NetworkMonitor
-import com.roseoj.myapplication.feature.welcome.WelcomeNavHost
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -50,10 +51,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             KoinAndroidContext {
                 MyApplicationTheme {
+                    val appState = rememberDemoAppState(networkMonitor)
                     if(uiState is MainActivityUiState.Success) {
-                        WelcomeNavHost(
-                            networkMonitor = networkMonitor,
-                            isAuthorized = (uiState as MainActivityUiState.Success).data.authorized
+                        DemoNavHost(
+                            appState = appState,
+                            isAuthorized = (uiState as MainActivityUiState.Success).data.authorized,
                         )
                     }
                 }
