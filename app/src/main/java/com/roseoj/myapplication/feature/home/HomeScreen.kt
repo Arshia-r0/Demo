@@ -129,7 +129,7 @@ fun Content(
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .height(40.dp),
-                    onClick = {},
+                    onClick = toggleBottomSheet,
                 ) {
                     Text("Submit")
                 }
