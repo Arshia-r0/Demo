@@ -1,10 +1,12 @@
 package com.roseoj.myapplication.feature.menu
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
@@ -17,7 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.roseoj.myapplication.core.designsystem.component.DemoScaffold
 import com.roseoj.myapplication.feature.menu.components.MenuTabs
 import org.koin.androidx.compose.koinViewModel
@@ -43,17 +47,22 @@ fun MenuScreen(
         ) {
             TabRow(
                 selectedTabIndex = currentTab.ordinal,
+                divider = {},
                 indicator = {},
             ) {
                 tabsList.forEach {
                     Tab(
                         selected = it == currentTab,
-                        onClick = { currentTab = it }
+                        onClick = { currentTab = it },
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer)
                     ) {
                         Text(
                             text = it.name,
-                            color = if (it == currentTab) Color.Black
-                            else MaterialTheme.colorScheme.secondary,
+                            color = if (it == currentTab) MaterialTheme.colorScheme.primary
+                            else Color.Black,
                         )
                     }
                 }

@@ -84,6 +84,7 @@ fun MainScreenBox(
            horizontalArrangement = Arrangement.End
        ) {
            Text(
+               color = Color.Black,
                text = category.title,
                textAlign = TextAlign.End,
                modifier = Modifier
