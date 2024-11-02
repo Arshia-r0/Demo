@@ -31,8 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.roseoj.demo.R
-import com.roseoj.myapplication.core.model.home.Category
-import com.roseoj.myapplication.core.model.home.Food
+import com.roseoj.myapplication.core.model.main.home.Category
+import com.roseoj.myapplication.core.model.main.home.Food
 import com.roseoj.myapplication.feature.menu.components.MenuTabs
 
 
