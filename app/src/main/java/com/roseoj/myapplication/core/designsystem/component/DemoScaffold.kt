@@ -3,8 +3,6 @@ package com.roseoj.myapplication.core.designsystem.component
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,6 +13,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import com.roseoj.demo.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,17 +34,18 @@ fun DemoScaffold(
                     containerColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = { Text(text = title) },
-                actions = actions,
-                navigationIcon = {
+                actions = {
                     IconButton(
                         onClick = backAction ?: {},
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = painterResource(R.drawable.arrow_right),
                             contentDescription = null,
+                            tint = Color.Unspecified
                         )
                     }
-                }
+                    actions()
+                },
             )
         }
     ) { ip ->
