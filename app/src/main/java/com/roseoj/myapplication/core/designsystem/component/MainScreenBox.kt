@@ -68,7 +68,7 @@ fun MainScreenBox(
             )
         ),
     ),
-    toggleBottomSheet: () -> Unit = {}
+    toggleBottomSheet: () -> Unit = {},
 ) {
    Column(
        modifier = Modifier

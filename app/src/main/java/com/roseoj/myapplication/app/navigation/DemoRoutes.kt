@@ -17,4 +17,10 @@ sealed interface DemoRoutes {
         object AuthRoute
     }
     
+    @Serializable
+    object MenuRoute
+    
+    @Serializable
+    object ProductRoute
+    
 }

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.roseoj.myapplication.app.app.DemoAppState
+import com.roseoj.myapplication.app.DemoAppState
 import com.roseoj.myapplication.app.navigation.TopLevelDestinations
 
 

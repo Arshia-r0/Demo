@@ -3,19 +3,21 @@ package com.roseoj.myapplication.core.designsystem.component
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,10 +26,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
-import com.roseoj.myapplication.app.app.DemoAppState
+import com.roseoj.myapplication.app.DemoAppState
 import com.roseoj.myapplication.app.navigation.TopLevelDestinations
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScaffold(
     appState: DemoAppState,
@@ -36,7 +39,7 @@ fun MainScaffold(
     isOffline: Boolean,
     snackBarHostState: SnackbarHostState,
     context: Context = LocalContext.current,
-    content: @Composable () -> Unit,
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     LaunchedEffect(isOffline) {
         if (isOffline) {
@@ -53,33 +56,35 @@ fun MainScaffold(
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Row(
+                            modifier = Modifier
+                                .background(color = MaterialTheme.colorScheme.primary)
+                                .fillMaxWidth()
+                                .height(70.dp)
+                                .padding(10.dp),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.tarkhine),
+                                contentDescription = "icon"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    ),
+                )
+            },
             snackbarHost = {
                 SnackbarHost(snackBarHostState) {
                     DemoSnackbar(it)
                 }
             },
         ) { ip ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(ip)
-                    .consumeWindowInsets(ip)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .background(color = MaterialTheme.colorScheme.primary)
-                        .fillMaxWidth()
-                        .height(70.dp)
-                        .padding(10.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.tarkhine),
-                        contentDescription = "icon"
-                    )
-                }
-                content()
-            }
+            content(ip)
         }
     }
 }

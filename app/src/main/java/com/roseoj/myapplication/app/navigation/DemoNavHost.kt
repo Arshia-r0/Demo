@@ -12,13 +12,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.roseoj.myapplication.app.app.DemoAppState
+import com.roseoj.myapplication.app.DemoAppState
 import com.roseoj.myapplication.core.designsystem.component.MainScaffold
-import com.roseoj.myapplication.feature.cart.CartScreen
-import com.roseoj.myapplication.feature.home.HomeScreen
-import com.roseoj.myapplication.feature.order.OrderScreen
-import com.roseoj.myapplication.feature.profile.ProfileScreen
-import com.roseoj.myapplication.feature.search.SearchScreen
+import com.roseoj.myapplication.feature.main.cart.CartScreen
+import com.roseoj.myapplication.feature.main.home.HomeScreen
+import com.roseoj.myapplication.feature.main.order.OrderScreen
+import com.roseoj.myapplication.feature.main.profile.ProfileScreen
+import com.roseoj.myapplication.feature.main.search.SearchScreen
+import com.roseoj.myapplication.feature.menu.MenuScreen
+import com.roseoj.myapplication.feature.product.ProductScreen
 import com.roseoj.myapplication.feature.welcome.auth.AuthScreen
 import com.roseoj.myapplication.feature.welcome.onboarding.OnboardingScreen
 
@@ -45,13 +47,30 @@ fun DemoNavHost(
                 windowAdaptiveInfo = windowAdaptiveInfo,
                 isOffline = isOffline,
                 snackBarHostState = snackbarHostState,
-            ) {
+            ) { ip ->
                 when (currentDestination) {
-                    TopLevelDestinations.Home -> HomeScreen()
-                    TopLevelDestinations.Search -> SearchScreen()
-                    TopLevelDestinations.Cart -> CartScreen()
-                    TopLevelDestinations.Order -> OrderScreen()
-                    TopLevelDestinations.Profile -> ProfileScreen()
+                    TopLevelDestinations.Home -> HomeScreen(
+                        ip = ip,
+                        toMenuScreen = {
+                            navController.navigate(DemoRoutes.MenuRoute)
+                        }
+                    )
+                    
+                    TopLevelDestinations.Search -> SearchScreen(
+                        ip = ip,
+                    )
+                    
+                    TopLevelDestinations.Cart -> CartScreen(
+                        ip = ip,
+                    )
+                    
+                    TopLevelDestinations.Order -> OrderScreen(
+                        ip = ip,
+                    )
+                    
+                    TopLevelDestinations.Profile -> ProfileScreen(
+                        ip = ip,
+                    )
                 }
             }
         }
@@ -71,6 +90,23 @@ fun DemoNavHost(
                     snackbarHostState = snackbarHostState,
                 )
             }
+        }
+        composable<DemoRoutes.MenuRoute> {
+            MenuScreen(
+                backAction = {
+                    navController.navigateUp()
+                },
+                toProductScreen = {
+                    navController.navigate(DemoRoutes.ProductRoute)
+                }
+            )
+        }
+        composable<DemoRoutes.ProductRoute> {
+            ProductScreen(
+                backAction = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

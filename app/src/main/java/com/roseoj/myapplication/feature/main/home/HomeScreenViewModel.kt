@@ -1,4 +1,4 @@
-package com.roseoj.myapplication.feature.home
+package com.roseoj.myapplication.feature.main.home
 
 import androidx.lifecycle.ViewModel
 

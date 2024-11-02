@@ -11,7 +11,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.roseoj.myapplication.app.app.rememberDemoAppState
 import com.roseoj.myapplication.app.navigation.DemoNavHost
 import com.roseoj.myapplication.core.designsystem.theme.MyApplicationTheme
 import com.roseoj.myapplication.core.network.util.NetworkMonitor

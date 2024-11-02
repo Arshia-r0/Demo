@@ -1,16 +1,22 @@
-package com.roseoj.myapplication.feature.order
+package com.roseoj.myapplication.feature.main.order
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 
 @Composable
-fun OrderScreen() {
+fun OrderScreen(
+    ip: PaddingValues,
+) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(ip)
     ) {
         Text("OrderScreen")
     }

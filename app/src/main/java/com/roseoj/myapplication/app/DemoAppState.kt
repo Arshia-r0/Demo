@@ -1,4 +1,4 @@
-package com.roseoj.myapplication.app.app
+package com.roseoj.myapplication.app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

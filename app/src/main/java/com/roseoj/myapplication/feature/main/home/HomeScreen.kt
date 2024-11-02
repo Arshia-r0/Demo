@@ -1,4 +1,4 @@
-package com.roseoj.myapplication.feature.home
+package com.roseoj.myapplication.feature.main.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +40,10 @@ import com.roseoj.myapplication.core.designsystem.component.MainScreenBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    ip: PaddingValues,
+    toMenuScreen: () -> Unit = {}
+) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val toggleBottomSheet = { showBottomSheet = !showBottomSheet }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -51,27 +55,33 @@ fun HomeScreen() {
         ): Offset = available
     }
     Content(
+        ip = ip,
         showBottomSheet = showBottomSheet,
         toggleBottomSheet = toggleBottomSheet,
         sheetState = sheetState,
         nestedScrollConnection = nestedScrollConnection,
+        toMenuScreen = toMenuScreen,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Content(
+    ip: PaddingValues,
     showBottomSheet: Boolean = false,
     nestedScrollConnection: NestedScrollConnection,
     sheetState: SheetState,
     toggleBottomSheet: () -> Unit = {},
+    toMenuScreen: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(ip)
     ) {
         LazyColumn {
             item {
-                MainScreenBox(id = true, toggleBottomSheet = toggleBottomSheet)
+                MainScreenBox(id = true, toggleBottomSheet = toMenuScreen)
                 MainScreenBox(id = false, toggleBottomSheet = toggleBottomSheet)
                 MainScreenBox(id = true, toggleBottomSheet = toggleBottomSheet)
                 MainScreenBox(id = false, toggleBottomSheet = toggleBottomSheet)
