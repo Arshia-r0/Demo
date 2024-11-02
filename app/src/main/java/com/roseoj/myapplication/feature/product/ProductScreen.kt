@@ -7,12 +7,12 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProductScreen(
-    backAction: () -> Unit = {},
+    navigateBack: () -> Unit = {},
     viewModel: ProductViewModel = koinViewModel()
 ) {
     DemoScaffold(
         title = "ProductScreen",
-        backAction = backAction,
+        backAction = navigateBack,
     ) { ip ->
     
     }

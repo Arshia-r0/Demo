@@ -46,7 +46,7 @@ import org.koin.androidx.compose.koinViewModel
 @PreviewScreenSizes
 @Composable
 fun OnboardingScreen(
-    nextScreen: () -> Unit = {},
+    toAuthScreen: () -> Unit = {},
     viewModel: OnboardingScreenViewModel = koinViewModel()
 ) {
     var page by viewModel.page
@@ -70,7 +70,7 @@ fun OnboardingScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(
-                        onClick = { nextScreen() }
+                        onClick = { toAuthScreen() }
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.close),
@@ -163,7 +163,7 @@ fun OnboardingScreen(
                         indication = null
                     ) {
                         if (page != OnboardingPages.Page3) page = page.next()
-                        else nextScreen()
+                        else toAuthScreen()
                     }
                 )
             }

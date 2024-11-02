@@ -26,7 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MenuScreen(
     tab: MenuTabs = MenuTabs.Main,
-    backAction: () -> Unit = {},
+    navigateBack: () -> Unit = {},
     toProductScreen: () -> Unit = {},
     viewModel: MenuViewModel = koinViewModel()
 ) {
@@ -34,7 +34,7 @@ fun MenuScreen(
     val tabsList = remember { MenuTabs.entries }
     DemoScaffold(
         title = "Menu",
-        backAction = backAction,
+        backAction = navigateBack,
     ) { ip ->
         Column(
             modifier = Modifier

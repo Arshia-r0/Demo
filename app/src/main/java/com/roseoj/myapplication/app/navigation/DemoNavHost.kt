@@ -10,20 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-import androidx.navigation.toRoute
 import com.roseoj.myapplication.app.DemoAppState
-import com.roseoj.myapplication.core.designsystem.component.MainScaffold
-import com.roseoj.myapplication.feature.main.cart.CartScreen
-import com.roseoj.myapplication.feature.main.home.HomeScreen
-import com.roseoj.myapplication.feature.main.order.OrderScreen
-import com.roseoj.myapplication.feature.main.profile.ProfileScreen
-import com.roseoj.myapplication.feature.main.search.SearchScreen
-import com.roseoj.myapplication.feature.menu.MenuScreen
-import com.roseoj.myapplication.feature.product.ProductScreen
-import com.roseoj.myapplication.feature.welcome.auth.AuthScreen
-import com.roseoj.myapplication.feature.welcome.onboarding.OnboardingScreen
+import com.roseoj.myapplication.feature.main.navigation.mainNavigation
+import com.roseoj.myapplication.feature.menu.navigation.menuNavigation
+import com.roseoj.myapplication.feature.product.navigation.productNavigation
+import com.roseoj.myapplication.feature.welcome.navigation.welcomeNavigation
 
 
 @Composable
@@ -34,78 +25,40 @@ fun DemoNavHost(
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
 ) {
     val navController = appState.navController
-    val currentDestination by appState.topLevelDestination
     val isOffline by appState.isOffline.collectAsStateWithLifecycle()
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = appState.navController,
         startDestination = if (isAuthorized) DemoRoutes.MainRoute else DemoRoutes.WelcomeRoutes
     ) {
-        composable<DemoRoutes.MainRoute> {
-            MainScaffold(
-                appState = appState,
-                currentDestination = currentDestination,
-                windowAdaptiveInfo = windowAdaptiveInfo,
-                isOffline = isOffline,
-                snackBarHostState = snackbarHostState,
-            ) { ip ->
-                when (currentDestination) {
-                    TopLevelDestinations.Home -> HomeScreen(
-                        ip = ip,
-                        toMenuScreen = { tab ->
-                            navController.navigate(DemoRoutes.MenuRoute(tab))
-                        }
-                    )
-                    TopLevelDestinations.Search -> SearchScreen(
-                        ip = ip,
-                    )
-                    TopLevelDestinations.Cart -> CartScreen(
-                        ip = ip,
-                    )
-                    TopLevelDestinations.Order -> OrderScreen(
-                        ip = ip,
-                    )
-                    TopLevelDestinations.Profile -> ProfileScreen(
-                        ip = ip,
-                    )
-                }
+        mainNavigation(
+            appState = appState,
+            isOffline = isOffline,
+            snackbarHostState = snackbarHostState,
+            windowAdaptiveInfo = windowAdaptiveInfo,
+            toMenuScreen = { tab ->
+                navController.navigate(DemoRoutes.MenuRoute(tab))
+            },
+        )
+        welcomeNavigation(
+            isOffline = isOffline,
+            snackbarHostState = snackbarHostState,
+            toAuthScreen = {
+                navController.navigate(DemoRoutes.WelcomeRoutes.AuthRoute)
             }
-        }
-        navigation<DemoRoutes.WelcomeRoutes>(
-            startDestination = DemoRoutes.WelcomeRoutes.OnboardingRoute
-        ) {
-            composable<DemoRoutes.WelcomeRoutes.OnboardingRoute> {
-                OnboardingScreen(
-                    nextScreen = {
-                        navController.navigate(DemoRoutes.WelcomeRoutes.AuthRoute)
-                    }
-                )
+        )
+        menuNavigation(
+            navigateBack = {
+                navController.navigateUp()
+            },
+            toProductScreen = {
+                navController.navigate(DemoRoutes.ProductRoute)
             }
-            composable<DemoRoutes.WelcomeRoutes.AuthRoute> {
-                AuthScreen(
-                    isOffline = isOffline,
-                    snackbarHostState = snackbarHostState,
-                )
+        )
+        productNavigation(
+            navigateBack = {
+                navController.navigateUp()
             }
-        }
-        composable<DemoRoutes.MenuRoute>(
-        ) {
-            MenuScreen(
-                tab = it.toRoute<DemoRoutes.MenuRoute>().tab,
-                backAction = {
-                    navController.navigateUp()
-                },
-                toProductScreen = {
-                    navController.navigate(DemoRoutes.ProductRoute)
-                }
-            )
-        }
-        composable<DemoRoutes.ProductRoute> {
-            ProductScreen(
-                backAction = {
-                    navController.navigateUp()
-                }
-            )
-        }
+        )
     }
 }
