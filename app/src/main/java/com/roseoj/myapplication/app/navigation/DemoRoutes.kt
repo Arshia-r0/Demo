@@ -1,5 +1,6 @@
 package com.roseoj.myapplication.app.navigation
 
+import com.roseoj.myapplication.feature.menu.components.MenuTabs
 import kotlinx.serialization.Serializable
 
 
@@ -18,7 +19,9 @@ sealed interface DemoRoutes {
     }
     
     @Serializable
-    object MenuRoute
+    data class MenuRoute(
+        val tab: MenuTabs,
+    )
     
     @Serializable
     object ProductRoute

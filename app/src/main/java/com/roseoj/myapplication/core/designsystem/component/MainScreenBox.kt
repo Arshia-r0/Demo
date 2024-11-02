@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.roseoj.demo.R
 import com.roseoj.myapplication.core.model.home.Category
 import com.roseoj.myapplication.core.model.home.Food
+import com.roseoj.myapplication.feature.menu.components.MenuTabs
 
 
 @Preview
@@ -156,4 +157,27 @@ fun MainScreenBox(
            }
        }
    }
+}
+
+@Composable
+fun Box1(
+    toMenuScreen: (MenuTabs) -> Unit,
+) {
+    LazyRow(
+        reverseLayout = true,
+        horizontalArrangement = Arrangement.End,
+    ) {
+        items(items = MenuTabs.entries.reversed(), key = { it.ordinal }) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.padding(15.dp)
+            ) {
+                Button(
+                    onClick = { toMenuScreen(it) },
+                ) {
+                    Text(it.toString())
+                }
+            }
+        }
+    }
 }

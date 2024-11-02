@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
-import com.roseoj.myapplication.core.common.next
+import com.roseoj.myapplication.core.common.util.next
 import org.koin.androidx.compose.koinViewModel
 
 

@@ -35,14 +35,16 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import com.roseoj.myapplication.core.designsystem.component.Box1
 import com.roseoj.myapplication.core.designsystem.component.MainScreenBox
+import com.roseoj.myapplication.feature.menu.components.MenuTabs
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     ip: PaddingValues,
-    toMenuScreen: () -> Unit = {}
+    toMenuScreen: (MenuTabs) -> Unit = {},
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val toggleBottomSheet = { showBottomSheet = !showBottomSheet }
@@ -72,7 +74,7 @@ fun Content(
     nestedScrollConnection: NestedScrollConnection,
     sheetState: SheetState,
     toggleBottomSheet: () -> Unit = {},
-    toMenuScreen: () -> Unit = {}
+    toMenuScreen: (MenuTabs) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -81,7 +83,8 @@ fun Content(
     ) {
         LazyColumn {
             item {
-                MainScreenBox(id = true, toggleBottomSheet = toMenuScreen)
+                Box1(toMenuScreen = toMenuScreen)
+                MainScreenBox(id = true, toggleBottomSheet = toggleBottomSheet)
                 MainScreenBox(id = false, toggleBottomSheet = toggleBottomSheet)
                 MainScreenBox(id = true, toggleBottomSheet = toggleBottomSheet)
                 MainScreenBox(id = false, toggleBottomSheet = toggleBottomSheet)

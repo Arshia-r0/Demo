@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
-import com.roseoj.myapplication.core.common.convertToTime
+import com.roseoj.myapplication.core.common.util.convertToTime
 import com.roseoj.myapplication.feature.welcome.auth.countDownTime
 
 
@@ -82,7 +82,9 @@ fun OtpStage(
         setOtp = { setOtp(it) }
     )
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 55.dp, vertical = 5.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 55.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -114,7 +116,10 @@ fun OtpStage(
     }
     Button(
         onClick = { submitOtp() },
-        modifier = Modifier.widthIn(320.dp).fillMaxWidth().padding(horizontal = 50.dp),
+        modifier = Modifier
+            .widthIn(320.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 50.dp),
         shape = RoundedCornerShape(5.dp)
     ) {
         Text(

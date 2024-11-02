@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.roseoj.myapplication.app.DemoAppState
 import com.roseoj.myapplication.core.designsystem.component.MainScaffold
 import com.roseoj.myapplication.feature.main.cart.CartScreen
@@ -51,8 +52,8 @@ fun DemoNavHost(
                 when (currentDestination) {
                     TopLevelDestinations.Home -> HomeScreen(
                         ip = ip,
-                        toMenuScreen = {
-                            navController.navigate(DemoRoutes.MenuRoute)
+                        toMenuScreen = { tab ->
+                            navController.navigate(DemoRoutes.MenuRoute(tab))
                         }
                     )
                     TopLevelDestinations.Search -> SearchScreen(
@@ -87,8 +88,10 @@ fun DemoNavHost(
                 )
             }
         }
-        composable<DemoRoutes.MenuRoute> {
+        composable<DemoRoutes.MenuRoute>(
+        ) {
             MenuScreen(
+                tab = it.toRoute<DemoRoutes.MenuRoute>().tab,
                 backAction = {
                     navController.navigateUp()
                 },
