@@ -55,19 +55,15 @@ fun DemoNavHost(
                             navController.navigate(DemoRoutes.MenuRoute)
                         }
                     )
-                    
                     TopLevelDestinations.Search -> SearchScreen(
                         ip = ip,
                     )
-                    
                     TopLevelDestinations.Cart -> CartScreen(
                         ip = ip,
                     )
-                    
                     TopLevelDestinations.Order -> OrderScreen(
                         ip = ip,
                     )
-                    
                     TopLevelDestinations.Profile -> ProfileScreen(
                         ip = ip,
                     )

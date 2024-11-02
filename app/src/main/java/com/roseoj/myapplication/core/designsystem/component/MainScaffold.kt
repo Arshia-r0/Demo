@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -61,10 +59,9 @@ fun MainScaffold(
                     title = {
                         Row(
                             modifier = Modifier
+                                .fillMaxSize()
                                 .background(color = MaterialTheme.colorScheme.primary)
-                                .fillMaxWidth()
-                                .height(70.dp)
-                                .padding(10.dp),
+                                .padding(end = 20.dp, bottom = 5.dp),
                             horizontalArrangement = Arrangement.End
                         ) {
                             Icon(
