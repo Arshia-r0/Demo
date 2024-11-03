@@ -7,6 +7,7 @@ import com.roseoj.myapplication.feature.welcome.auth.AuthScreenViewModel
 import com.roseoj.myapplication.feature.welcome.onboarding.OnboardingScreenViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import com.roseoj.myapplication.feature.main.profile.ProfileViewModel as ProfileViewModel1
 
 
 val viewModelModule = module {
@@ -16,5 +17,6 @@ val viewModelModule = module {
     viewModelOf(::HomeScreenViewModel)
     viewModelOf(::MenuViewModel)
     viewModelOf(::ProductViewModel)
+    viewModelOf(::ProfileViewModel1)
     
 }

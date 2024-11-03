@@ -1,7 +1,6 @@
 package com.roseoj.myapplication.core.designsystem.component
 
 import android.content.Context
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,11 +13,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -58,18 +59,38 @@ fun MainScaffold(
             topBar = {
                 TopAppBar(
                     title = {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = MaterialTheme.colorScheme.primary)
-                                .padding(end = 20.dp, bottom = 5.dp),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.tarkhine),
-                                contentDescription = "icon",
-                                tint = Color.White,
-                            )
+                        when (currentDestination) {
+                            TopLevelDestinations.Profile -> {}
+                            TopLevelDestinations.Home -> {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(end = 20.dp, bottom = 5.dp),
+                                    horizontalArrangement = Arrangement.End
+                                ) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.tarkhine),
+                                        contentDescription = "icon",
+                                        tint = Color.White,
+                                    )
+                                }
+                            }
+                            
+                            else -> {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(end = 20.dp, bottom = 5.dp),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = currentDestination.name,
+                                        color = Color.White,
+                                        style = MaterialTheme.typography.headlineMedium
+                                    )
+                                }
+                            }
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(

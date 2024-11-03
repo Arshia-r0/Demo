@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
@@ -64,6 +65,7 @@ fun OtpStage(
             ) { requestOtp() }
         ) { append(stringResource(R.string.otp_request_otp)) }
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
     Text(
         text = stringResource(R.string.otp_title),
         textAlign = TextAlign.End,
@@ -115,7 +117,10 @@ fun OtpStage(
         }
     }
     Button(
-        onClick = { submitOtp() },
+        onClick = {
+            keyboardController?.hide()
+            submitOtp()
+        },
         modifier = Modifier
             .widthIn(320.dp)
             .fillMaxWidth()

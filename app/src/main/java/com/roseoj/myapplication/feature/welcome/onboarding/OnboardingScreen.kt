@@ -18,11 +18,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -42,6 +45,7 @@ import com.roseoj.myapplication.core.common.util.next
 import org.koin.androidx.compose.koinViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @PreviewScreenSizes
 @Composable
@@ -52,23 +56,15 @@ fun OnboardingScreen(
     var page by viewModel.page
     val progress by animateFloatAsState(page.progress, label = "ProgressIndicator")
     val interactionSource = remember { MutableInteractionSource() }
-    Scaffold(Modifier.fillMaxSize()) { ip ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(ip)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.4f)
-                    .background(MaterialTheme.colorScheme.primary),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = {},
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                actions = {
                     IconButton(
                         onClick = { toAuthScreen() }
                     ) {
@@ -78,6 +74,27 @@ fun OnboardingScreen(
                             tint = Color.Unspecified
                         )
                     }
+                }
+            )
+        }
+    ) { ip ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(ip)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.3f)
+                    .background(MaterialTheme.colorScheme.primary),
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                
                 }
                 AnimatedContent(
                     targetState = page,
