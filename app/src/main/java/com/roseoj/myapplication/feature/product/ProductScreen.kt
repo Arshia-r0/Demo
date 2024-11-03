@@ -9,14 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.roseoj.myapplication.core.designsystem.component.DemoScaffold
 import com.roseoj.myapplication.core.model.product.FoodDetails
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun ProductScreen(
     food: FoodDetails,
     navigateBack: () -> Unit = {},
-    viewModel: ProductViewModel = koinViewModel()
 ) {
     DemoScaffold(
         title = "ProductScreen",
