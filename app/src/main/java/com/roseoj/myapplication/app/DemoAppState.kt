@@ -44,8 +44,7 @@ class DemoAppState(
     
     var topLevelDestination = mutableStateOf(TopLevelDestinations.Home)
     
-    val isOffline = networkMonitor.isOnline
-        .map(Boolean::not)
+    val isOffline = networkMonitor.isOnline.map(Boolean::not)
         .stateIn(
             scope = coroutineScope,
             started = SharingStarted.WhileSubscribed(5_000),
