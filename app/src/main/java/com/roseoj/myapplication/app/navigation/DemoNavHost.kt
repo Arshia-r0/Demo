@@ -51,8 +51,8 @@ fun DemoNavHost(
             navigateBack = {
                 navController.navigateUp()
             },
-            toProductScreen = {
-                navController.navigate(DemoRoutes.ProductRoute)
+            toProductScreen = { food ->
+                navController.navigate(DemoRoutes.ProductRoute(food))
             }
         )
         productNavigation(

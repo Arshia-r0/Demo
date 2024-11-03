@@ -1,4 +1,4 @@
-package com.roseoj.myapplication.core.model.main.home
+package com.roseoj.myapplication.core.model.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

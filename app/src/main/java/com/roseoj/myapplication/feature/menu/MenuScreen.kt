@@ -1,5 +1,6 @@
 package com.roseoj.myapplication.feature.menu
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.roseoj.myapplication.core.designsystem.component.DemoScaffold
+import com.roseoj.myapplication.core.model.product.FoodDetails
 import com.roseoj.myapplication.feature.menu.components.MenuTabs
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -35,7 +37,7 @@ import org.koin.androidx.compose.koinViewModel
 fun MenuScreen(
     tab: MenuTabs,
     navigateBack: () -> Unit = {},
-    toProductScreen: () -> Unit = {},
+    toProductScreen: (FoodDetails) -> Unit = {},
     viewModel: MenuViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -80,11 +82,7 @@ fun MenuScreen(
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Button(
-                        onClick = toProductScreen
-                    ) {
-                        Text(text = currentTab.name)
-                    }
+                    Text(currentTab.name)
                 }
             } else {
                 LazyRow(
@@ -111,22 +109,40 @@ fun MenuScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     item {
-                        MenuBox("Iranian")
+                        MenuBox(
+                            title = "Iranian",
+                            food = null
+                        )
                     }
                     items(5) {
-                        MenuBox(it.toString())
+                        MenuBox(
+                            title = it.toString(),
+                            toProductScreen = toProductScreen
+                        )
                     }
                     item {
-                        MenuBox("Foreign")
+                        MenuBox(
+                            title = "Foreign",
+                            food = null
+                        )
                     }
                     items(12) {
-                        MenuBox(it.toString())
+                        MenuBox(
+                            title = it.toString(),
+                            toProductScreen = toProductScreen
+                        )
                     }
                     item {
-                        MenuBox("Pizza")
+                        MenuBox(
+                            title = "Pizza",
+                            food = null
+                        )
                     }
                     items(11) {
-                        MenuBox(it.toString())
+                        MenuBox(
+                            title = it.toString(),
+                            toProductScreen = toProductScreen
+                        )
                     }
                 }
             }
@@ -136,16 +152,28 @@ fun MenuScreen(
 
 @Composable
 fun MenuBox(
-    title: String
+    title: String,
+    toProductScreen: (FoodDetails) -> Unit = {},
+    food: FoodDetails? = FoodDetails(
+        title = "title",
+        price = 120000,
+        contents = "contents",
+        score = 40 to 4.5f
+    ),
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp),
+            .height(70.dp)
+            .clickable {
+                if (food != null) {
+                    toProductScreen(food)
+                }
+            },
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = title,
+            text = food?.title ?: title,
             color = Color.Black
         )
     }
