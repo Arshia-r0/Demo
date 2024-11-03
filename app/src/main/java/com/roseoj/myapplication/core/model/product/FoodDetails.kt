@@ -8,5 +8,5 @@ data class FoodDetails(
     val title: String,
     val price: Int,
     val contents: String,
-    val score: Pair<Int, Float>
+    val score: Pair<Int, Int>
 )

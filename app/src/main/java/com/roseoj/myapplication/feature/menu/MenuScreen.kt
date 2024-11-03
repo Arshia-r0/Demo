@@ -1,11 +1,9 @@
 package com.roseoj.myapplication.feature.menu
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.roseoj.myapplication.core.designsystem.component.DemoScaffold
 import com.roseoj.myapplication.core.model.product.FoodDetails
 import com.roseoj.myapplication.feature.menu.components.MenuTabs
+import com.roseoj.myapplication.feature.menu.components.section
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,9 +41,9 @@ fun MenuScreen(
 ) {
     val scope = rememberCoroutineScope()
     val lazyState = rememberLazyListState()
-    val types = remember { arrayOf("Iranian", "Foreign", "Pizza") }
     var currentTab by remember { mutableStateOf(tab) }
-    val tabsList = remember { MenuTabs.entries }
+    val tabsList = viewModel.tabsList
+    val data = viewModel.data
     DemoScaffold(
         title = "Menu",
         backAction = navigateBack,
@@ -91,57 +90,27 @@ fun MenuScreen(
                         .padding(10.dp),
                     reverseLayout = true,
                 ) {
-                    items(types) {
+                    items(data.data) {
                         Button(
                             onClick = {
                                 scope.launch {
-                                    lazyState.animateScrollToItem(14)
+                                    lazyState.animateScrollToItem(viewModel.getCategoryPosition(it))
                                 }
                             },
                             modifier = Modifier.padding(horizontal = 10.dp)
                         ) {
-                            Text(text = it)
+                            Text(text = it.title)
                         }
                     }
                 }
                 LazyColumn(
                     state = lazyState,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
-                    item {
-                        MenuBox(
-                            title = "Iranian",
-                            food = null
-                        )
-                    }
-                    items(5) {
-                        MenuBox(
-                            title = it.toString(),
-                            toProductScreen = toProductScreen
-                        )
-                    }
-                    item {
-                        MenuBox(
-                            title = "Foreign",
-                            food = null
-                        )
-                    }
-                    items(12) {
-                        MenuBox(
-                            title = it.toString(),
-                            toProductScreen = toProductScreen
-                        )
-                    }
-                    item {
-                        MenuBox(
-                            title = "Pizza",
-                            food = null
-                        )
-                    }
-                    items(11) {
-                        MenuBox(
-                            title = it.toString(),
-                            toProductScreen = toProductScreen
+                    data.data.forEach {
+                        section(
+                            menuCategory = it,
+                            toProductScreen = toProductScreen,
                         )
                     }
                 }
@@ -150,31 +119,3 @@ fun MenuScreen(
     }
 }
 
-@Composable
-fun MenuBox(
-    title: String,
-    toProductScreen: (FoodDetails) -> Unit = {},
-    food: FoodDetails? = FoodDetails(
-        title = "title",
-        price = 120000,
-        contents = "contents",
-        score = 40 to 4.5f
-    ),
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .clickable {
-                if (food != null) {
-                    toProductScreen(food)
-                }
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = food?.title ?: title,
-            color = Color.Black
-        )
-    }
-}
