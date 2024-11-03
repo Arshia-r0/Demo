@@ -4,7 +4,7 @@ import com.roseoj.myapplication.core.model.product.FoodDetails
 
 
 data class MenuLazyData(
-    val data: List<MenuCategory>
+    val categories: List<MenuCategory>
 )
 
 data class MenuCategory(

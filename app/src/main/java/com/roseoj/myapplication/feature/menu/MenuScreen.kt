@@ -85,7 +85,7 @@ fun MenuScreen(
                     .fillMaxWidth(),
                 reverseLayout = true,
             ) {
-                items(data.data) {
+                items(data.categories) {
                     Button(
                         onClick = {
                             scope.launch {
@@ -106,7 +106,7 @@ fun MenuScreen(
                 state = lazyState,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                data.data.forEach {
+                data.categories.forEach {
                     section(
                         menuCategory = it,
                         toProductScreen = toProductScreen,

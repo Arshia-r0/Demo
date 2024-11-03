@@ -18,14 +18,14 @@ class MenuViewModel : ViewModel() {
             MenuCategory("Popular")
         )
     )
-    val categoryRange = data.data.associateWith {
+    val categoryRange = data.categories.associateWith {
         val start = getCategoryPosition(it)
         start..start + it.items.size
     }
     
     private fun getCategoryPosition(category: MenuCategory): Int {
         var p = 0
-        data.data.forEach {
+        data.categories.forEach {
             if (it != category) p += it.items.size + 1
             else return p
         }
