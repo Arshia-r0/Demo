@@ -8,7 +8,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -30,7 +29,7 @@ fun DemoSnackbar(
         Column(
             modifier = Modifier.padding(12.dp),
         ) {
-            Text(
+            DemoText(
                 text = snackbarData.visuals.message,
                 color = MaterialTheme.colorScheme.error
             )

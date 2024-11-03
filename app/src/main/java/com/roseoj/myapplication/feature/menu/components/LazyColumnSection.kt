@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
+import com.roseoj.myapplication.core.designsystem.component.DemoText
+import com.roseoj.myapplication.core.designsystem.component.ScoreStarsRow
 import com.roseoj.myapplication.core.model.product.FoodDetails
 
 
@@ -44,7 +45,7 @@ fun LazyListScope.section(
                 .padding(horizontal = 10.dp),
             horizontalArrangement = Arrangement.End,
         ) {
-            Text(
+            DemoText(
                 text = menuCategory.title,
                 color = Color.Black,
                 style = MaterialTheme.typography.headlineMedium
@@ -91,7 +92,7 @@ fun LazyFoodCategory(
                     .padding(10.dp),
                 horizontalAlignment = Alignment.End,
             ) {
-                Text(
+                DemoText(
                     text = item.title,
                     style = MaterialTheme.typography.headlineSmall
                 )
@@ -100,10 +101,10 @@ fun LazyFoodCategory(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(
+                    DemoText(
                         text = item.price.toString()
                     )
-                    Text(
+                    DemoText(
                         text = item.contents
                     )
                 }
@@ -116,11 +117,11 @@ fun LazyFoodCategory(
                     Button(
                         onClick = {},
                     ) {
-                        Text(
+                        DemoText(
                             text = "add to cart"
                         )
                     }
-                    ScoreStars(item.score.first)
+                    ScoreStarsRow(item.score.first)
                     Icon(
                         modifier = Modifier.clickable { },
                         painter = painterResource(R.drawable.heart),
@@ -139,31 +140,6 @@ fun LazyFoodCategory(
                 modifier = Modifier.fillMaxSize(),
                 painter = painterResource(R.drawable.order_selected),
                 contentDescription = null,
-            )
-        }
-    }
-}
-
-@Composable
-fun ScoreStars(
-    score: Int = 3
-) {
-    Row(
-        modifier = Modifier,
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        repeat(score) {
-            Icon(
-                painter = painterResource(R.drawable.star_1),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
-        }
-        repeat(5 - score) {
-            Icon(
-                painter = painterResource(R.drawable.star_4),
-                contentDescription = null,
-                tint = Color.Unspecified
             )
         }
     }

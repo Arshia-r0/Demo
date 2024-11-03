@@ -20,19 +20,18 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.roseoj.demo.R
 import com.roseoj.myapplication.core.designsystem.component.DemoScaffold
+import com.roseoj.myapplication.core.designsystem.component.DemoText
+import com.roseoj.myapplication.core.designsystem.component.ScoreStarsRow
 import com.roseoj.myapplication.core.model.product.FoodDetails
-import com.roseoj.myapplication.feature.menu.components.ScoreStars
 
 
 @Preview(showBackground = true)
@@ -83,10 +82,9 @@ fun ProductScreen(
                     imageVector = Icons.Default.Favorite,
                     contentDescription = null,
                 )
-                Text(
+                DemoText(
                     modifier = Modifier.weight(1f),
                     text = food.title,
-                    textAlign = TextAlign.End,
                     style = MaterialTheme.typography.headlineSmall,
                 )
             }
@@ -104,19 +102,17 @@ fun ProductScreen(
                     )
                     .padding(horizontal = 10.dp)
             ) {
-                Text(
+                DemoText(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp),
                     text = "محتویات",
                     style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.End,
                 )
-                Text(
+                DemoText(
                     modifier = Modifier.fillMaxWidth(),
                     text = food.contents,
                     style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.End,
                 )
                 HorizontalDivider(
                     color = MaterialTheme.colorScheme.secondary,
@@ -126,13 +122,12 @@ fun ProductScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    ScoreStars(food.score.first)
-                    Text(text = food.score.second.toString())
-                    Text(
+                    ScoreStarsRow(food.score.first)
+                    DemoText(text = food.score.second.toString())
+                    DemoText(
                         modifier = Modifier.weight(1f),
                         text = "امتیاز",
                         style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.End
                     )
                 }
                 HorizontalDivider(
@@ -143,14 +138,13 @@ fun ProductScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = food.price.toString())
-                    Text(
+                    DemoText(text = food.price.toString())
+                    DemoText(
                         modifier = Modifier
                             .padding(bottom = 10.dp)
                             .weight(1f),
                         text = "قیمت",
                         style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.End
                     )
                 }
             }
@@ -158,7 +152,7 @@ fun ProductScreen(
                 modifier = Modifier.padding(top = 20.dp),
                 onClick = {}
             ) {
-                Text(
+                DemoText(
                     text = "افزودن به سبد خرید"
                 )
             }

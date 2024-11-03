@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,10 +82,9 @@ fun MainScreenBox(
            modifier = Modifier.fillMaxWidth(),
            horizontalArrangement = Arrangement.End
        ) {
-           Text(
+           DemoText(
                color = Color.Black,
                text = category.title,
-               textAlign = TextAlign.End,
                modifier = Modifier
                    .width(150.dp)
                    .clip(RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
@@ -129,12 +127,11 @@ fun MainScreenBox(
                            horizontalArrangement = Arrangement.SpaceEvenly,
                            verticalAlignment = Alignment.CenterVertically,
                        ) {
-                           Text(
+                           DemoText(
                                text = it.price.toString(),
                                fontSize = 12.sp
                            )
-                           Text(
-                               textAlign = TextAlign.End,
+                           DemoText(
                                text = it.title,
                                fontSize = 12.sp
                            )
@@ -146,7 +143,7 @@ fun MainScreenBox(
                            contentPadding = PaddingValues(0.dp),
                            modifier = Modifier.fillMaxWidth()
                        ) {
-                            Text(
+                           DemoText(
                                 modifier = Modifier.padding(horizontal = 5.dp),
                                 text = "افزودن به سبد خرید",
                                 fontSize = 12.sp,
@@ -176,7 +173,7 @@ fun Box1(
                 Button(
                     onClick = { toMenuScreen(it) },
                 ) {
-                    Text(it.toString())
+                    DemoText(it.toString())
                 }
             }
         }

@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.roseoj.myapplication.core.designsystem.component.DemoScaffold
+import com.roseoj.myapplication.core.designsystem.component.DemoText
 import com.roseoj.myapplication.core.model.product.FoodDetails
 import com.roseoj.myapplication.feature.menu.components.MenuTabs
 import com.roseoj.myapplication.feature.menu.components.section
@@ -72,7 +73,7 @@ fun MenuScreen(
                         modifier = Modifier
                             .padding(10.dp)
                     ) {
-                        Text(
+                        DemoText(
                             text = it.name,
                             color = if (it == currentTab) MaterialTheme.colorScheme.primary
                             else Color.Black,
