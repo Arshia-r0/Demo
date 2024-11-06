@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 
 
 class ProfileViewModel(
-    val userDataRepository: UserDataRepository
+    private val userDataRepository: UserDataRepository
 ) : ViewModel() {
     
     val items = listOf(

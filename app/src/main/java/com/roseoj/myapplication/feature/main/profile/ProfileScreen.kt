@@ -4,12 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,44 +37,42 @@ fun ProfileScreen(
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val items = viewModel.items
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(ip)
+            .padding(ip),
+        horizontalAlignment = Alignment.End,
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(color = MaterialTheme.colorScheme.primary),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(R.drawable.profile),
-                contentDescription = null,
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            horizontalAlignment = Alignment.End,
-        ) {
-            items.forEach {
-                DemoText(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { }
-                        .padding(vertical = 10.dp),
-                    text = it,
-                    style = MaterialTheme.typography.headlineSmall
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.primary),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    modifier = Modifier.padding(vertical = 30.dp),
+                    painter = painterResource(R.drawable.profile),
+                    contentDescription = null,
                 )
             }
+        }
+        items(items) {
+            DemoText(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { }
+                    .padding(vertical = 15.dp, horizontal = 20.dp),
+                text = it,
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+        item {
             DemoText(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { showDialog = true }
-                    .padding(vertical = 20.dp),
+                    .padding(vertical = 15.dp, horizontal = 20.dp),
                 text = "خروج",
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.error,
