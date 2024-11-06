@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -42,7 +41,7 @@ fun MenuScreen(
 ) {
     val scope = rememberCoroutineScope()
     val lazyState = rememberLazyListState()
-    var currentTab by remember { mutableStateOf(tab) }
+    var currentTab by viewModel.getCurrentTab(tab)
     val tabsList = viewModel.tabsList
     val data = viewModel.data
     val categoryRange = viewModel.categoryRange

@@ -25,13 +25,13 @@ fun NavGraphBuilder.mainNavigation(
     toMenuScreen: (MenuTabs) -> Unit,
 ) {
     composable<DemoRoutes.MainRoute> {
-        val currentDestination by appState.topLevelDestination
+        val currentDestination by Destination.currentTopLevelDestination
         MainScaffold(
             appState = appState,
-            currentDestination = currentDestination,
             windowAdaptiveInfo = windowAdaptiveInfo,
             isOffline = isOffline,
             snackBarHostState = snackbarHostState,
+            currentDestination = currentDestination
         ) { ip ->
             when (currentDestination) {
                 TopLevelDestinations.Home -> HomeScreen(

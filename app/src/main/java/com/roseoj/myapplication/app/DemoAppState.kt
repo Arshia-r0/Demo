@@ -2,12 +2,10 @@ package com.roseoj.myapplication.app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.roseoj.myapplication.app.navigation.TopLevelDestinations
 import com.roseoj.myapplication.core.network.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,9 +38,6 @@ class DemoAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope,
 ) {
-    val topLevelDestinations = TopLevelDestinations.entries
-    
-    var topLevelDestination = mutableStateOf(TopLevelDestinations.Home)
     
     val isOffline = networkMonitor.isOnline.map(Boolean::not)
         .stateIn(
